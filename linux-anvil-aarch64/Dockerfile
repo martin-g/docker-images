@@ -34,21 +34,20 @@ RUN /opt/docker/bin/run_commands
 
 # Download and cache new compiler packages.
 # Should speedup installation of them on CIs.
-ENV _channel="c4aarch64"
 RUN source /opt/conda/etc/profile.d/conda.sh && \
     conda activate && \
     conda create -n test --yes --quiet --download-only \
-        $_channel::binutils_impl_linux-aarch64 \
-        $_channel::binutils_linux-aarch64 \
-        $_channel::gcc_impl_linux-aarch64 \
-        $_channel::gcc_linux-aarch64 \
-        $_channel::gfortran_impl_linux-aarch64 \
-        $_channel::gfortran_linux-aarch64 \
-        $_channel::gxx_impl_linux-aarch64 \
-        $_channel::gxx_linux-aarch64 \
-        $_channel::libgcc-ng \
-        $_channel::libgfortran-ng \
-        $_channel::libstdcxx-ng && \
+        conda-forge::binutils_impl_linux-aarch64 \
+        conda-forge::binutils_linux-aarch64 \
+        conda-forge::gcc_impl_linux-aarch64 \
+        conda-forge::gcc_linux-aarch64 \
+        conda-forge::gfortran_impl_linux-aarch64 \
+        conda-forge::gfortran_linux-aarch64 \
+        conda-forge::gxx_impl_linux-aarch64 \
+        conda-forge::gxx_linux-aarch64 \
+        conda-forge::libgcc-ng \
+        conda-forge::libgfortran-ng \
+        conda-forge::libstdcxx-ng && \
     conda remove --yes --quiet -n test --all && \
     conda clean -tiy && \
     chgrp -R lucky /opt/conda && \
