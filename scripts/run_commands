@@ -5,21 +5,21 @@ set -exo pipefail
 export additional_channel=""
 
 if [ "$(uname -m)" = "x86_64" ]; then
-   export supkg="gosu"
-   export condapkg="https://repo.continuum.io/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh"
-   export conda_chksum="718259965f234088d785cad1fbd7de03"
+   export supkg="su-exec"
+   export condapkg="https://github.com/conda-forge/miniforge/releases/download/4.8.2-1/Miniforge3-4.8.2-1-Linux-x86_64.sh"
+   export conda_chksum="4f897e503bd0edfb277524ca5b6a5b14ad818b3198c2f07a36858b7d88c928db"
 elif [ "$(uname -m)" = "ppc64le" ]; then
    export supkg="su-exec"
-   export condapkg="https://repo.continuum.io/miniconda/Miniconda3-4.7.12.1-Linux-ppc64le.sh"
-   export conda_chksum="9de38932ed6a8865562e6057b578694f"
+   export condapkg="https://github.com/conda-forge/miniforge/releases/download/4.8.2-1/Miniforge3-4.8.2-1-Linux-ppc64le.sh"
+   export conda_chksum="7dbb4cbd4f6d661e82bc41ff0d93bc4b37bf5f90145ca4edc91bcc6e6ae5f7b5"
 elif [ "$(uname -m)" = "aarch64" ]; then
    export supkg="su-exec"
    export condapkg="https://github.com/conda-forge/miniforge/releases/download/4.8.2-1/Miniforge3-4.8.2-1-Linux-aarch64.sh"
-   export conda_chksum="5cb1651b53052a76d8c2273309578889"
+   export conda_chksum="a24320fabceef73dfe3240379ee7834ce8f167ace1630dcba314c7ade5e01208"
 elif [ "$(uname -m)" = "armv7l" ]; then
    export supkg="su-exec"
    export condapkg="https://github.com/jjhelmus/conda4armv7l/releases/download/1.0.0/conda4armv7l_installer-1.0.0-Linux-armv7l.sh"
-   export conda_chksum="7d1b7b10d5194d8572cc39dd22fe6e18"
+   export conda_chksum="91471e99c090867f242f377b10470a4e8debd6e8af1007da3e692782b8e8b83f"
    # defaults is not enough
    export additional_channel="--add channels c4armv7l"
 else
@@ -32,7 +32,7 @@ echo 'conda ALL=NOPASSWD: /usr/bin/yum' >> /etc/sudoers
 
 # Install the latest Miniconda with Python 3 and update everything.
 curl -s -L $condapkg > miniconda.sh
-md5sum miniconda.sh | grep $conda_chksum
+sha256sum miniconda.sh | grep $conda_chksum
 
 bash miniconda.sh -b -p /opt/conda
 rm -f miniconda.sh
