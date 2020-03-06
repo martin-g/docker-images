@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Build miniforge image
           command: |
-            cd minforge3/ubuntu
+            cd miniforge3/ubuntu
             docker build -t condaforge/miniforge3 .
   build-anvil:
     environment:
