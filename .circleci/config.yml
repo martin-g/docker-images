@@ -8,10 +8,13 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Build miniforge image
+          name: Build miniforge3 image
           command: |
-            cd miniforge3/ubuntu
-            docker build -t condaforge/miniforge3 .
+            docker build -t condaforge/miniforge3 miniforge3/ubuntu
+      - run:
+          name: Run miniforge3 tests
+          command: |
+            docker build miniforge3/tests --arg IMAGE_TO_TEST=condaforge/miniforge3
   build-anvil:
     environment:
       DOCKERIMAGE: linux-anvil-comp7
