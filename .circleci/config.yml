@@ -12,9 +12,17 @@ jobs:
           command: |
             docker build -t condaforge/miniforge3 miniforge3/ubuntu
       - run:
-          name: Run miniforge3 tests
+          name: Run miniforge3 tests as root
           command: |
-            docker build miniforge3/tests --build-arg IMAGE_TO_TEST=condaforge/miniforge3
+            docker build miniforge3/tests \
+              --build-arg IMAGE_TO_TEST=condaforge/miniforge3 \
+              -f miniforge3/tests/Dockerfile.root
+      - run:
+          name: Run miniforge3 tests as non-root
+          command: |
+            docker build miniforge3/tests \
+              --build-arg IMAGE_TO_TEST=condaforge/miniforge3 \
+              -f miniforge3/tests/Dockerfile.non-root
   build-anvil:
     environment:
       DOCKERIMAGE: linux-anvil-comp7
