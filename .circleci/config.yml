@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Run miniforge3 tests
           command: |
-            docker build miniforge3/tests --arg IMAGE_TO_TEST=condaforge/miniforge3
+            docker build miniforge3/tests --build-arg IMAGE_TO_TEST=condaforge/miniforge3
   build-anvil:
     environment:
       DOCKERIMAGE: linux-anvil-comp7
