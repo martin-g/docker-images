@@ -2,7 +2,7 @@
 
 set -exo pipefail
 
-export additional_channel=""
+export additional_channel="--add channels defaults"
 
 if [ "$(uname -m)" = "x86_64" ]; then
    export supkg="su-exec"
