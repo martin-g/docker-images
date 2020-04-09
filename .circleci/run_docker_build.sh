@@ -17,18 +17,22 @@ if hash docker-machine 2> /dev/null && docker-machine active > /dev/null; then
     export HOST_USER_ID=$(docker-machine ssh $(docker-machine active) id -u)
 fi
 
-ARTIFACTS="$FEEDSTOCK_ROOT/build_artifacts"
+if [[ "${TEST_CONTAINER:"1"}" != "0" ]]; then
 
-mkdir -p "$ARTIFACTS"
-DONE_CANARY="$ARTIFACTS/conda-forge-build-done"
-rm -f "$DONE_CANARY"
+    ARTIFACTS="$FEEDSTOCK_ROOT/build_artifacts"
 
-docker run -it \
-           -v "${FEEDSTOCK_ROOT}":/home/conda/feedstock_root \
-           -e HOST_USER_ID \
-           `docker images -q condaforge/$DOCKERIMAGE` \
-           bash \
-           /home/conda/feedstock_root/.circleci/test_docker_container.sh
+    mkdir -p "$ARTIFACTS"
+    DONE_CANARY="$ARTIFACTS/conda-forge-build-done"
+    rm -f "$DONE_CANARY"
 
-# verify that the end of the script was reached
-test -f "$DONE_CANARY"
+    docker run -it \
+               -v "${FEEDSTOCK_ROOT}":/home/conda/feedstock_root \
+               -e HOST_USER_ID \
+               `docker images -q condaforge/$DOCKERIMAGE` \
+               bash \
+               /home/conda/feedstock_root/.circleci/test_docker_container.sh
+
+    # verify that the end of the script was reached
+    test -f "$DONE_CANARY"
+fi
+
