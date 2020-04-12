@@ -17,7 +17,7 @@ if hash docker-machine 2> /dev/null && docker-machine active > /dev/null; then
     export HOST_USER_ID=$(docker-machine ssh $(docker-machine active) id -u)
 fi
 
-if [[ "${TEST_CONTAINER:"1"}" != "0" ]]; then
+if [[ "${DOCKERIMAGE}" != "miniforge3" ]]; then
 
     ARTIFACTS="$FEEDSTOCK_ROOT/build_artifacts"
 
