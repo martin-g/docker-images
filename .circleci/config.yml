@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Build miniforge3 image
           command: |
-            docker build -t condaforge/miniforge3 miniforge3/ubuntu
+            docker build -t condaforge/miniforge3 miniforge3
       - run:
           name: Run miniforge3 tests as root
           command: |
