@@ -58,17 +58,6 @@ RUN source /opt/conda/etc/profile.d/conda.sh && \
     chgrp -R lucky /opt/conda && \
     chmod -R g=u /opt/conda
 
-# Download and cache CUDA related packages.
-RUN source /opt/conda/etc/profile.d/conda.sh && \
-    conda activate && \
-    conda create -n test --yes --quiet --download-only \
-        defaults::cudatoolkit=${CUDA_VER} \
-        && \
-    conda remove --yes --quiet -n test --all && \
-    conda clean -tiy && \
-    chgrp -R lucky /opt/conda && \
-    chmod -R g=u /opt/conda
-
 # Symlink CUDA headers that were moved from $CUDA_HOME/include to /usr/include
 # in CUDA 10.1.
 RUN for HEADER_FILE in cublas_api.h cublas.h cublasLt.h cublas_v2.h cublasXt.h nvblas.h; do \
