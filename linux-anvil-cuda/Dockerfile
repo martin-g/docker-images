@@ -19,7 +19,8 @@ ENV CUDA_HOME /usr/local/cuda
 # nor any (non-stub) libcuda.so. For licensing reasons, these cannot be part of
 # the conda-forge docker images, but are instead added for CI purposes in:
 # github.com/conda-forge/conda-forge-ci-setup-feedstock/blob/master/recipe/run_conda_forge_build_setup_linux
-RUN echo "$CUDA_HOME/compat-$CUDA_VER" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf
+RUN echo "$CUDA_HOME/compat-$CUDA_VER" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf && \
+    ldconfig
 
 # Add a timestamp for the build. Also, bust the cache.
 ADD http://worldclockapi.com/api/json/utc/now /opt/docker/etc/timestamp
