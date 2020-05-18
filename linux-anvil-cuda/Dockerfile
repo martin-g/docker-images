@@ -14,7 +14,10 @@ ENV LANG en_US.UTF-8
 # Set path to CUDA install (this is a symlink to /usr/local/cuda-${CUDA_VER})
 ENV CUDA_HOME /usr/local/cuda
 
-RUN if [ ${CUDA_VER} != "9.2" ]; then \
+# we want to persist a path in ldconfig (to avoid having to always set LD_LIBRARY_PATH), but *after* the existing entries;
+# since entries in ld.so.conf.d have precedence before the preconfigured directories, we first add the latter to the former
+RUN ldconfig -v 2>/dev/null | grep -v ^$'\t' | cut -f1 -d":" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf \
+    && if [ ${CUDA_VER} != "9.2" ]; then \
         # the upstream images for 10.x all have libcuda.so under $CUDA_HOME/compat;
         # add this to the ldconfig so it will be found correctly.
         echo "$CUDA_HOME/compat" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf ; \
