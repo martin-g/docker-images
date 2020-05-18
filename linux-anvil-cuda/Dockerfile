@@ -13,14 +13,24 @@ ENV LANG en_US.UTF-8
 
 # Set path to CUDA install (this is a symlink to /usr/local/cuda-${CUDA_VER})
 ENV CUDA_HOME /usr/local/cuda
-# the upstream images for 10.x all have libcuda.so under $CUDA_HOME/compat;
-# add this to the ldconfig so it will be found correctly. For 9.2, the image
-# nvidia/cuda:9.2-devel-centos6 contains neither $CUDA_HOME/compat, nor any
-# (non-stub) libcuda.so. For licensing reasons, these cannot be part of the
-# conda-forge docker images, but are instead added for CI purposes in:
-# github.com/conda-forge/conda-forge-ci-setup-feedstock/blob/master/recipe/run_conda_forge_build_setup_linux
-RUN echo "$CUDA_HOME/compat" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf && \
-    ldconfig
+
+RUN if [ ${CUDA_VER} != "9.2" ]; then \
+        # the upstream images for 10.x all have libcuda.so under $CUDA_HOME/compat;
+        # add this to the ldconfig so it will be found correctly.
+        echo "$CUDA_HOME/compat" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf ; \
+    else \
+        # For 9.2, the image nvidia/cuda:9.2-devel-centos6 contains neither
+        # $CUDA_HOME/compat, nor any (non-stub) libcuda.so. We fix this by
+        # adding cuda-compat-10.0 (which is not used for building, but to
+        # test if loading the respective library/package works). However,
+        # due to licensing reasons, these cannot be part of the conda-forge
+        # docker images, but are instead added for CI purposes in:
+        # github.com/conda-forge/conda-forge-ci-setup-feedstock/blob/master/recipe/run_conda_forge_build_setup_linux
+        # Here we only set the ldconfig accordingly.
+        echo "/usr/local/cuda-10.0/compat" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf ; \
+    fi \
+    # don't forget to update settings by running ldconfig
+    && ldconfig
 
 # Add a timestamp for the build. Also, bust the cache.
 ADD http://worldclockapi.com/api/json/utc/now /opt/docker/etc/timestamp
