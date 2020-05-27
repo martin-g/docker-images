@@ -1,3 +1,7 @@
+# Note that this image doesn't cache cudatoolkit as it is not packaged by defaults.
+# This docker image is meant for packages using CUDA driver and not for packages
+# using the CUDA runtime.
+
 ARG CUDA_VER
 
 FROM nvidia/cuda-ppc64le:${CUDA_VER}-devel-centos7
