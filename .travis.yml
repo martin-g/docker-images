@@ -91,6 +91,7 @@ before_install:
 
     - docker info
     - |
+      set -xe
       if [ "$(uname -m)" = "x86_64" ]; then
           docker run --rm --privileged multiarch/qemu-user-static:register --reset
       fi
@@ -103,7 +104,7 @@ before_install:
       wget https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_STATIC_VERSION}/qemu-arm-static
       sha256sum qemu-ppc64le-static | grep -F "${qemu_ppc64le_sha256}"
       sha256sum qemu-aarch64-static | grep -F "${qemu_aarch64_sha256}"
-      sha256sum qemu-arm-static | grep -F "${qemu_aarch64_sha256}"
+      sha256sum qemu-arm-static | grep -F "${qemu_arm_sha256}"
       chmod +x qemu-ppc64le-static
       chmod +x qemu-aarch64-static
       chmod +x qemu-arm-static
