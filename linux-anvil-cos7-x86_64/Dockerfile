@@ -5,8 +5,8 @@ LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
 
-# Add a timestamp for the build. Also, bust the cache.
-ADD http://worldclockapi.com/api/json/utc/now /opt/docker/etc/timestamp
+# bust the docker cache so that we always rerun the installs below
+ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
