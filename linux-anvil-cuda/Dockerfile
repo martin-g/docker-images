@@ -46,7 +46,7 @@ RUN rpm -e --nodeps --verbose gcc gcc-c++
 
 # Install basic requirements.
 COPY scripts/yum_clean_all /opt/docker/bin/
-RUN yum update -y && \
+RUN yum update -y --disablerepo=cuda && \
     yum install -y \
         bzip2 \
         sudo \
