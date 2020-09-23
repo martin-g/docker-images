@@ -1,12 +1,14 @@
+# Set environment variables during runtime.
 ARG CUDA_VER
-
-FROM nvidia/cuda:${CUDA_VER}-devel-centos6
+ARG CENTOS_VER
+FROM nvidia/cuda:${CUDA_VER}-devel-centos${CENTOS_VER}
 
 LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
 
-# Set CUDA_VER during runtime.
 ARG CUDA_VER
-ENV CUDA_VER ${CUDA_VER}
+ARG CENTOS_VER
+ENV CUDA_VER=${CUDA_VER} \
+    CENTOS_VER=${CENTOS_VER}
 
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
@@ -39,7 +41,7 @@ RUN ldconfig -v 2>/dev/null | grep -v ^$'\t' | cut -f1 -d":" >> /etc/ld.so.conf.
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER}
 
 # Remove preinclude system compilers
 RUN rpm -e --nodeps --verbose gcc gcc-c++
@@ -94,7 +96,7 @@ RUN source /opt/conda/etc/profile.d/conda.sh && \
 # in CUDA 10.1.
 RUN for HEADER_FILE in cublas_api.h cublas.h cublasLt.h cublas_v2.h cublasXt.h nvblas.h; do \
     if [[ ! -f "${CUDA_HOME}/include/${HEADER_FILE}" ]]; \
-    then ln -s "/usr/include/${HEADER_FILE}" "${CUDA_HOME}/include/${HEADER_FILE}"; \
+      then ln -s "/usr/include/${HEADER_FILE}" "${CUDA_HOME}/include/${HEADER_FILE}"; \
     fi; \
     done
 

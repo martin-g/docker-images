@@ -1,9 +1,13 @@
-FROM ppc64le/centos:7
+ARG CENTOS_VER
+FROM ppc64le/centos:${CENTOS_VER}
 
 MAINTAINER conda-forge <conda-forge@googlegroups.com>
 
 # Add qemu in here so that we can use this image on regular linux hosts with qemu user installed
 ADD qemu-ppc64le-static /usr/bin/qemu-ppc64le-static
+
+ARG CENTOS_VER
+ENV CENTOS_VER=${CENTOS_VER}
 
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
@@ -13,8 +17,8 @@ ENV LANGUAGE=en_US.UTF-8
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
-    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-7-ppc64le
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
+    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-${CENTOS_VER}-ppc64le
 
 # Install basic requirements.
 COPY scripts/yum_clean_all /opt/docker/bin/

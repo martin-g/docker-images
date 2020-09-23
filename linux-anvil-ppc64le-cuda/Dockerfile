@@ -3,17 +3,19 @@
 # using the CUDA runtime.
 
 ARG CUDA_VER
-
-FROM nvidia/cuda-ppc64le:${CUDA_VER}-devel-centos7
+ARG CENTOS_VER
+FROM nvidia/cuda-ppc64le:${CUDA_VER}-devel-centos${CENTOS_VER}
 
 LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
 
-# Set CUDA_VER during runtime.
-ARG CUDA_VER
-ENV CUDA_VER ${CUDA_VER}
-
 # Add qemu in here so that we can use this image on regular linux hosts with qemu user installed
 ADD qemu-ppc64le-static /usr/bin/qemu-ppc64le-static
+
+# Set CUDA_VER during runtime.
+ARG CUDA_VER
+ARG CENTOS_VER
+ENV CUDA_VER=${CUDA_VER} \
+    CENTOS_VER=${CENTOS_VER}
 
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
@@ -26,8 +28,8 @@ ENV CUDA_HOME /usr/local/cuda
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
-    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-7-ppc64le
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
+    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-${CENTOS_VER}-ppc64le
 
 # Remove preinclude system compilers
 RUN rpm -e --nodeps --verbose gcc gcc-c++

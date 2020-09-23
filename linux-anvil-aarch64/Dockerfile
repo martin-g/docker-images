@@ -1,8 +1,12 @@
-FROM arm64v8/centos:7
+ARG CENTOS_VER
+FROM arm64v8/centos:${CENTOS_VER}
 
 ADD qemu-aarch64-static /usr/bin/qemu-aarch64-static
 
 LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
+
+ARG CENTOS_VER
+ENV CENTOS_VER=${CENTOS_VER}
 
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
@@ -12,8 +16,8 @@ ENV LANGUAGE=en_US.UTF-8
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
-    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7-aarch64
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
+    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER}-aarch64
 
 # (arm64v8/centos:7 only) Fix language override to get a working en_US.UTF-8 locale; backports:
 # https://github.com/CentOS/sig-cloud-instance-build/commit/2892c17fa8a520e58c3f42cd56587863fe675670
