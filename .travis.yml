@@ -6,50 +6,66 @@ matrix:
       env:
         - DOCKERIMAGE=linux-anvil-comp7
         - DOCKERTAG=latest
+        - CENTOS_VER=6
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-comp7
         - DOCKERTAG=jnlp-slave
+        - CENTOS_VER=6
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-cos7-x86_64
         - DOCKERTAG=latest
+        - CENTOS_VER=7
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-ppc64le
         - DOCKERTAG=latest
+        - CENTOS_VER=7
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-aarch64
         - DOCKERTAG=latest
+        - CENTOS_VER=7
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-cuda
         - DOCKERTAG=9.2
         - CUDA_VER=9.2
+        - CENTOS_VER=6
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-cuda
         - DOCKERTAG=10.0
         - CUDA_VER=10.0
+        - CENTOS_VER=6
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-cuda
         - DOCKERTAG=10.1
         - CUDA_VER=10.1
+        - CENTOS_VER=6
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-cuda
         - DOCKERTAG=10.2
         - CUDA_VER=10.2
+        - CENTOS_VER=6
+
+    - os: linux
+      env:
+        - DOCKERIMAGE=linux-anvil-cuda
+        - DOCKERTAG=11.0
+        - CUDA_VER=11.0
+        - CENTOS_VER=7
 
     - os: linux
       env:
@@ -61,30 +77,28 @@ matrix:
         - DOCKERIMAGE=linux-anvil-ppc64le-cuda
         - DOCKERTAG=9.2
         - CUDA_VER=9.2
+        - CENTOS_VER=7
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-ppc64le-cuda
         - DOCKERTAG=10.0
         - CUDA_VER=10.0
+        - CENTOS_VER=7
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-ppc64le-cuda
         - DOCKERTAG=10.1
         - CUDA_VER=10.1
+        - CENTOS_VER=7
 
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-ppc64le-cuda
         - DOCKERTAG=10.2
         - CUDA_VER=10.2
-
-    - os: linux
-      env:
-        - DOCKERIMAGE=linux-anvil-cos7-cuda
-        - DOCKERTAG=11.0
-        - CUDA_VER=11.0
+        - CENTOS_VER=7
 
 env:
   global:
@@ -121,7 +135,7 @@ install:
       then
         sed "s|@BASE_IMAGE@|condaforge/${DOCKERIMAGE}|" jnlp-slave/Dockerfile.in > $DOCKERIMAGE/Dockerfile
       fi
-    - docker build --build-arg CUDA_VER -t condaforge/$DOCKERIMAGE:$DOCKERTAG -f $DOCKERIMAGE/Dockerfile --no-cache --squash .
+    - docker build --build-arg CUDA_VER CENTOS_VER -t condaforge/$DOCKERIMAGE:$DOCKERTAG -f $DOCKERIMAGE/Dockerfile --no-cache --squash .
 
 script:
     - |

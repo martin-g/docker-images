@@ -1,6 +1,10 @@
-FROM centos:6
+ARG CENTOS_VER
+FROM centos:${CENTOS_VER}
 
 LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
+
+ARG CENTOS_VER
+ENV CENTOS_VER=${CENTOS_VER}
 
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
@@ -14,7 +18,7 @@ ADD qemu-ppc64le-static /usr/bin/qemu-ppc64le-static
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER}
 
 # Install basic requirements.
 COPY scripts/yum_clean_all /opt/docker/bin/
