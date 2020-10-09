@@ -6,15 +6,12 @@ export additional_channel="--add channels defaults"
 
 export miniforge_version="4.8.5-2"
 if [ "$(uname -m)" = "x86_64" ]; then
-   export supkg="su-exec"
    export condapkg="https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/Miniforge3-${miniforge_version}-Linux-x86_64.sh"
    export conda_chksum="67e15be1628cfc191d95f84b7de4db82d11f32953245c913c7846a85fdbe68bc"
 elif [ "$(uname -m)" = "ppc64le" ]; then
-   export supkg="su-exec"
    export condapkg="https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/Miniforge3-${miniforge_version}-Linux-ppc64le.sh"
    export conda_chksum="13b535e744c879eb667272a4a5bc105c67e2ea69bc88b06acb5d2e80b1402caa"
 elif [ "$(uname -m)" = "aarch64" ]; then
-   export supkg="su-exec"
    export condapkg="https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/Miniforge3-${miniforge_version}-Linux-aarch64.sh"
    export conda_chksum="8352b5f24acf8409cf2717db68a744ef7ae5b3abf92bf901515e27be03461c55"
 else
@@ -48,9 +45,9 @@ conda install --yes --quiet \
 conda clean -tipy
 
 # Install docker tools
-conda install --yes $supkg
-export CONDA_SUEXEC_INFO=( `conda list $supkg | grep $supkg` )
-echo "$supkg ${CONDA_SUEXEC_INFO[1]}" >> /opt/conda/conda-meta/pinned
+conda install --yes su-exec
+export CONDA_SUEXEC_INFO=( `conda list su-exec | grep su-exec` )
+echo "su-exec ${CONDA_SUEXEC_INFO[1]}" >> /opt/conda/conda-meta/pinned
 
 conda install --yes tini
 export CONDA_TINI_INFO=( `conda list tini | grep tini` )
