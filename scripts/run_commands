@@ -4,17 +4,18 @@ set -exo pipefail
 
 export additional_channel="--add channels defaults"
 
+export miniforge_version="4.8.3-0"
 if [ "$(uname -m)" = "x86_64" ]; then
    export supkg="su-exec"
-   export condapkg="https://github.com/conda-forge/miniforge/releases/download/4.8.3-0/Miniforge3-4.8.3-0-Linux-x86_64.sh"
+   export condapkg="https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/Miniforge3-${miniforge_version}-Linux-x86_64.sh"
    export conda_chksum="1db6013e836da2ea817a53c44b0fd9beea521013bcb94b2b5440b1a61ba8b338"
 elif [ "$(uname -m)" = "ppc64le" ]; then
    export supkg="su-exec"
-   export condapkg="https://github.com/conda-forge/miniforge/releases/download/4.8.3-0/Miniforge3-4.8.3-0-Linux-ppc64le.sh"
+   export condapkg="https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/Miniforge3-${miniforge_version}-Linux-ppc64le.sh"
    export conda_chksum="d9f11778ab03710fe9f82964b56f67de6ce29b551459dc6903b114cd5df1e4a0"
 elif [ "$(uname -m)" = "aarch64" ]; then
    export supkg="su-exec"
-   export condapkg="https://github.com/conda-forge/miniforge/releases/download/4.8.3-0/Miniforge3-4.8.3-0-Linux-aarch64.sh"
+   export condapkg="https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/Miniforge3-${miniforge_version}-Linux-aarch64.sh"
    export conda_chksum="359fa54c375d1af3dd21d76aa8a64f800347d3b3a6e53d3b37dcdd88b4a2e7b6"
 else
    exit 1
