@@ -19,7 +19,7 @@ environment variables passed in to be able to build. In this case, you
 will want to use a command similar to the following:
 
 ```sh
-docker build --rm --build-arg CUDA_VER=6 --build-arg CENTOS_VER=10.2 -f linux-anvil-cuda/Dockerfile .
+docker build --rm --build-arg CENTOS_VER=6 --build-arg CUDA_VER=10.2 -f linux-anvil-cuda/Dockerfile .
 ```
 
 ## Environment variables
