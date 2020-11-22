@@ -1,0 +1,151 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Test on ${{ matrix.cfg.os }}, Python ${{ matrix.python-version }}, RDKit=${{ matrix.cfg.rdkit }}, OpenEye=${{ matrix.cfg.openeye }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
+        - DOCKERIMAGE: linux-anvil-comp7
+          DOCKERTAG: latest
+          CENTOS_VER: 6
+
+        - DOCKERIMAGE: linux-anvil-comp7
+          DOCKERTAG: jnlp-slave
+          CENTOS_VER: 6
+
+        - DOCKERIMAGE: linux-anvil-cos7-x86_64
+          DOCKERTAG: latest
+          CENTOS_VER: 7
+
+        - DOCKERIMAGE: linux-anvil-ppc64le
+          DOCKERTAG: latest
+          CENTOS_VER: 7
+
+        - DOCKERIMAGE: linux-anvil-aarch64
+          DOCKERTAG: latest
+          CENTOS_VER: 7
+
+        - DOCKERIMAGE: linux-anvil-cuda
+          DOCKERTAG: 9.2
+          CUDA_VER: 9.2
+          CENTOS_VER: 6
+
+        - DOCKERIMAGE: linux-anvil-cuda
+          DOCKERTAG: 10.0
+          CUDA_VER: 10.0
+          CENTOS_VER: 6
+
+        - DOCKERIMAGE: linux-anvil-cuda
+          DOCKERTAG: 10.1
+          CUDA_VER: 10.1
+          CENTOS_VER: 6
+
+        - DOCKERIMAGE: linux-anvil-cuda
+          DOCKERTAG: 10.2
+          CUDA_VER: 10.2
+          CENTOS_VER: 6
+
+        - DOCKERIMAGE: linux-anvil-cuda
+          DOCKERTAG: 11.0
+          CUDA_VER: 11.0
+          CENTOS_VER: 7
+
+        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+          DOCKERTAG: 9.2
+          CUDA_VER: 9.2
+          CENTOS_VER: 7
+
+        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+          DOCKERTAG: 10.0
+          CUDA_VER: 10.0
+          CENTOS_VER: 7
+
+        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+          DOCKERTAG: 10.1
+          CUDA_VER: 10.1
+          CENTOS_VER: 7
+
+        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+          DOCKERTAG: 10.2
+          CUDA_VER: 10.2
+          CENTOS_VER: 7
+
+        - DOCKERIMAGE: miniforge3
+          DOCKERTAG: latest
+
+    env:
+      DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}
+      DOCKERTAG: ${{ matrix.cfg.DOCKERTAG }}
+      CUDA_VER: ${{ matrix.cfg.CUDA_VER }}
+      CENTOS_VER: ${{ matrix.cfg.CENTOS_VER }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Enable experimental features (needed for squash)
+        run: |
+          sudo cp docker_daemon_config.json /etc/docker/daemon.json
+          sudo service docker restart
+
+      - name: Docker info
+        run: |
+          docker info
+
+      - name: Configure qemu
+        run: |
+          set -xe
+          if [ "$(uname -m)" = "x86_64" ]; then
+              docker run --rm --privileged multiarch/qemu-user-static:register --reset
+          fi
+          export QEMU_STATIC_VERSION=v3.1.0-3
+          qemu_ppc64le_sha256=d018b96e20f7aefbc50e6ba93b6cabfd53490cdf1c88b02e7d66716fa09a7a17
+          qemu_aarch64_sha256=a64b39b8ce16e2285cb130bcba7143e6ad2fe19935401f01c38325febe64104b
+          qemu_arm_sha256=f4184c927f78d23d199056c5b0b6d75855e298410571d65582face3159117901
+          wget https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_STATIC_VERSION}/qemu-ppc64le-static
+          wget https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_STATIC_VERSION}/qemu-aarch64-static
+          wget https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_STATIC_VERSION}/qemu-arm-static
+          sha256sum qemu-ppc64le-static | grep -F "${qemu_ppc64le_sha256}"
+          sha256sum qemu-aarch64-static | grep -F "${qemu_aarch64_sha256}"
+          sha256sum qemu-arm-static | grep -F "${qemu_arm_sha256}"
+          chmod +x qemu-ppc64le-static
+          chmod +x qemu-aarch64-static
+          chmod +x qemu-arm-static
+
+      - name: Patch for jnlp-slave
+        if: matrix.cfg.DOCKERTAG == 'jnlp-slave'
+        run: |
+          sed "s|@BASE_IMAGE@|condaforge/${{matrix.cfg.DOCKERIMAGE}}|" jnlp-slave/Dockerfile.in > ${{matrix.cfg.DOCKERIMAGE}}/Dockerfile
+
+      - name: Build image
+        env:
+          CUDA_VER: ${{ matrix.cfg.CUDA_VER }}
+          CENTOS_VER: ${{ matrix.cfg.CENTOS_VER }}
+        run: |
+          docker build \
+            --build-arg CUDA_VER --build-arg CENTOS_VER \
+            -t condaforge/${{matrix.cfg.DOCKERIMAGE}}:${{matrix.cfg.DOCKERTAG}} \
+            -f ${{matrix.cfg.DOCKERIMAGE}}/Dockerfile \
+            --no-cache --squash .
+
+      - name: Run image
+        if: matrix.cfg.DOCKERTAG != 'jnlp-slave'
+        env:
+          DOCKERIMAGE: matrix.cfg.DOCKERIMAGE
+        run: |
+          ./.circleci/run_docker_build.sh
+
+      - name: Deploy
+        env:
+          CFD_QUAY_PASSWORD: ${{ secrets.CFD_QUAY_PASSWORD }}
+          DH_PASSWORD: ${{ secrets.DH_PASSWORD }}
+          DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}
+          DOCKERTAG: ${{ matrix.cfg.DOCKERTAG }}
+        run: |
+          ./scripts/deploy
