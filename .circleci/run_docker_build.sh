@@ -25,7 +25,13 @@ if [[ "${DOCKERIMAGE}" != "miniforge3" ]]; then
     DONE_CANARY="$ARTIFACTS/conda-forge-build-done"
     rm -f "$DONE_CANARY"
 
-    docker run -t \
+    # Allow people to specify extra default arguments to `docker run` (e.g. `--rm`)
+    DOCKER_RUN_ARGS="${CONDA_FORGE_DOCKER_RUN_ARGS}"
+    if [ -z "${CI}" ]; then
+        DOCKER_RUN_ARGS="-it ${DOCKER_RUN_ARGS}"
+    fi
+
+    docker run ${DOCKER_RUN_ARGS} \
                -v "${FEEDSTOCK_ROOT}":/home/conda/feedstock_root \
                -e HOST_USER_ID \
                `docker images -q condaforge/$DOCKERIMAGE` \
