@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/conda-forge/docker-images/tree/master.svg?style=shield)](https://circleci.com/gh/conda-forge/docker-images/tree/master)
-[![Travis CI Build Status](https://travis-ci.com/conda-forge/docker-images.svg?branch=master)](https://travis-ci.com/conda-forge/docker-images)
+[![GitHub Actions Build Status](https://github.com/conda-forge/docker-images/workflows/ci/badge.svg?branch=master)](https://github.com/conda-forge/docker-images/actions?query=branch%3Amaster+workflow%3Aci)
 
 # docker-images
 Repository to host the Docker images files used in conda-forge
