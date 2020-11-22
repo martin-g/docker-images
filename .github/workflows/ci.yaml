@@ -121,23 +121,18 @@ jobs:
       - name: Patch for jnlp-slave
         if: matrix.cfg.DOCKERTAG == 'jnlp-slave'
         run: |
-          sed "s|@BASE_IMAGE@|condaforge/${{matrix.cfg.DOCKERIMAGE}}|" jnlp-slave/Dockerfile.in > ${{matrix.cfg.DOCKERIMAGE}}/Dockerfile
+          sed "s|@BASE_IMAGE@|condaforge/$DOCKERIMAGE|" jnlp-slave/Dockerfile.in > $DOCKERIMAGE/Dockerfile
 
       - name: Build image
-        env:
-          CUDA_VER: ${{ matrix.cfg.CUDA_VER }}
-          CENTOS_VER: ${{ matrix.cfg.CENTOS_VER }}
         run: |
           docker build \
             --build-arg CUDA_VER --build-arg CENTOS_VER \
-            -t condaforge/${{matrix.cfg.DOCKERIMAGE}}:${{matrix.cfg.DOCKERTAG}} \
-            -f ${{matrix.cfg.DOCKERIMAGE}}/Dockerfile \
+            -t condaforge/$DOCKERIMAGE:$DOCKERTAG \
+            -f $DOCKERIMAGE/Dockerfile \
             --no-cache --squash .
 
       - name: Run image
         if: matrix.cfg.DOCKERTAG != 'jnlp-slave'
-        env:
-          DOCKERIMAGE: matrix.cfg.DOCKERIMAGE
         run: |
           ./.circleci/run_docker_build.sh
 
@@ -145,7 +140,5 @@ jobs:
         env:
           CFD_QUAY_PASSWORD: ${{ secrets.CFD_QUAY_PASSWORD }}
           DH_PASSWORD: ${{ secrets.DH_PASSWORD }}
-          DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}
-          DOCKERTAG: ${{ matrix.cfg.DOCKERTAG }}
         run: |
           ./scripts/deploy
