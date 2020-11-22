@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Test on ${{ matrix.cfg.os }}, Python ${{ matrix.python-version }}, RDKit=${{ matrix.cfg.rdkit }}, OpenEye=${{ matrix.cfg.openeye }}
+    name: ${{ matrix.cfg.DOCKERIMAGE }}:${{ matrix.cfg.DOCKERTAG }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
