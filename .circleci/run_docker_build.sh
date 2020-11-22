@@ -25,7 +25,7 @@ if [[ "${DOCKERIMAGE}" != "miniforge3" ]]; then
     DONE_CANARY="$ARTIFACTS/conda-forge-build-done"
     rm -f "$DONE_CANARY"
 
-    docker run -it \
+    docker run -t \
                -v "${FEEDSTOCK_ROOT}":/home/conda/feedstock_root \
                -e HOST_USER_ID \
                `docker images -q condaforge/$DOCKERIMAGE` \
