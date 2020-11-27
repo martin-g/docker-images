@@ -85,7 +85,7 @@ RUN source /opt/conda/etc/profile.d/conda.sh && \
 RUN source /opt/conda/etc/profile.d/conda.sh && \
     conda activate && \
     conda create -n test --yes --quiet --download-only \
-        defaults::cudatoolkit=${CUDA_VER} \
+        conda-forge::cudatoolkit=${CUDA_VER} \
         && \
     conda remove --yes --quiet -n test --all && \
     conda clean -tiy && \
