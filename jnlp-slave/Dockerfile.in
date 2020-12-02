@@ -1,5 +1,11 @@
 FROM @BASE_IMAGE@
 
+
+# Remove outdated repo URLs
+RUN rm -rf /etc/yum.repos.d/*
+# Add the archived centos6 repo URL
+ADD centos6-vault.repo /etc/yum.repos.d/vault.repo
+
 #
 # Fix a few things for Conda
 RUN { \
