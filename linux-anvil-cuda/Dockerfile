@@ -17,7 +17,7 @@ ENV LANG en_US.UTF-8
 ENV CUDA_HOME /usr/local/cuda
 
 # Remove outdated repo URLs
-RUN if [[ "$CENTOS_VER" == "6" ]]; then rm -rf /etc/yum.repos.d/*; fi
+RUN if [[ "$CENTOS_VER" == "6" ]]; then rm -rf /etc/yum.repos.d/CentOS-*; fi
 # Add the archived centos6 repo URL
 ADD centos6-vault.repo /tmp/vault.repo
 RUN if [[ "$CENTOS_VER" == "6" ]]; then cp /tmp/vault.repo /etc/yum.repos.d/vault.repo; fi
