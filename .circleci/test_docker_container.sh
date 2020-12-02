@@ -20,6 +20,11 @@ conda list
 # check that we can install a conda package
 conda install --yes --quiet conda-forge-pinning -c conda-forge
 
-/usr/bin/sudo -n yum install -y mesa-libGL mesa-dri-drivers libselinux libXdamage libXxf86vm libXext libXfixes libXinerama libXrandr libXcursor libXcomposite libX11 libXi
+set +e
+conda info | grep "__glibc=2.12"
+exit_code="$?"
+if [[ "$exit_code" == 0 ]]; then
+  /usr/bin/sudo -n yum install -y mesa-libGL mesa-dri-drivers libselinux libXdamage libXxf86vm libXext libXfixes libXinerama libXrandr libXcursor libXcomposite libX11 libXi
+fi
 
 touch /home/conda/feedstock_root/build_artifacts/conda-forge-build-done
