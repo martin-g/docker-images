@@ -17,6 +17,8 @@ ADD qemu-ppc64le-static /usr/bin/qemu-ppc64le-static
 # bust the docker cache so that we always rerun the installs below
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
+RUN rm -rf /etc/yum.repos.d/*
+
 ADD linux-anvil-comp7/vault.repo /etc/yum.repos.d/vault.repo
 
 # Resolves a nasty NOKEY warning that appears when using yum.
