@@ -20,4 +20,6 @@ conda list
 # check that we can install a conda package
 conda install --yes --quiet conda-forge-pinning -c conda-forge
 
+/usr/bin/sudo -n yum install -y mesa-libGL mesa-dri-drivers libselinux libXdamage libXxf86vm libXext libXfixes libXinerama libXrandr libXcursor libXcomposite libX11 libXi
+
 touch /home/conda/feedstock_root/build_artifacts/conda-forge-build-done
