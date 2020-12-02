@@ -16,6 +16,13 @@ ENV LANG en_US.UTF-8
 # Set path to CUDA install (this is a symlink to /usr/local/cuda-${CUDA_VER})
 ENV CUDA_HOME /usr/local/cuda
 
+# Remove outdated repo URLs
+RUN if [[ "$CENTOS_VER" == "6" ]]; then rm -rf /etc/yum.repos.d/*; fi
+# Add the archived centos6 repo URL
+ADD centos6-vault.repo /tmp/vault.repo
+RUN if [[ "$CENTOS_VER" == "6" ]]; then cp /tmp/vault.repo /etc/yum.repos.d/vault.repo; fi
+RUN rm /tmp/vault.repo
+
 # we want to persist a path in ldconfig (to avoid having to always set LD_LIBRARY_PATH), but *after* the existing entries;
 # since entries in ld.so.conf.d have precedence before the preconfigured directories, we first add the latter to the former
 RUN ldconfig -v 2>/dev/null | grep -v ^$'\t' | cut -f1 -d":" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf \
