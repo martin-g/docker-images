@@ -54,6 +54,30 @@ jobs:
           CUDA_VER: "10.2"
           CENTOS_VER: "6"
 
+        - DOCKERIMAGE: linux-anvil-cos7-cuda
+          DOCKERFILE: linux-anvil-cuda
+          DOCKERTAG: "9.2"
+          CUDA_VER: "9.2"
+          CENTOS_VER: "7"
+
+        - DOCKERIMAGE: linux-anvil-cos7-cuda
+          DOCKERFILE: linux-anvil-cuda
+          DOCKERTAG: "10.0"
+          CUDA_VER: "10.0"
+          CENTOS_VER: "7"
+
+        - DOCKERIMAGE: linux-anvil-cos7-cuda
+          DOCKERFILE: linux-anvil-cuda
+          DOCKERTAG: "10.1"
+          CUDA_VER: "10.1"
+          CENTOS_VER: "7"
+
+        - DOCKERIMAGE: linux-anvil-cos7-cuda
+          DOCKERFILE: linux-anvil-cuda
+          DOCKERTAG: "10.2"
+          CUDA_VER: "10.2"
+          CENTOS_VER: "7"
+
         - DOCKERIMAGE: linux-anvil-cuda
           DOCKERTAG: "11.0"
           CUDA_VER: "11.0"
@@ -135,7 +159,7 @@ jobs:
           docker build \
             --build-arg CUDA_VER --build-arg CENTOS_VER \
             -t condaforge/$DOCKERIMAGE:$DOCKERTAG \
-            -f $DOCKERIMAGE/Dockerfile \
+            -f ${DOCKERFILE:-${DOCKERIMAGE}}/Dockerfile \
             --no-cache --squash .
 
       - name: Run image
