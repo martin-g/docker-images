@@ -113,6 +113,7 @@ jobs:
 
     env:
       DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}
+      DOCKERFILE: ${{ matrix.cfg.DOCKERFILE }}
       DOCKERTAG: ${{ matrix.cfg.DOCKERTAG }}
       CUDA_VER: ${{ matrix.cfg.CUDA_VER }}
       CENTOS_VER: ${{ matrix.cfg.CENTOS_VER }}
