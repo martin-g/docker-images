@@ -1,8 +1,10 @@
 FROM ubuntu:bionic
 
+ARG MINIFORGE_VARIANT
 ARG MINIFORGE_VERSION=4.9.2-5
 ARG TINI_VERSION=v0.18.0
 
+ENV MINIFORGE_VARIANT=${MINIFORGE_VARIANT}
 ENV CONDA_DIR=/opt/conda
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH=${CONDA_DIR}/bin:${PATH}
@@ -22,7 +24,7 @@ RUN wget --no-hsts --quiet https://github.com/krallin/tini/releases/download/${T
 # 1. Install miniforge from GitHub releases
 # 2. Apply some cleanup tips from https://jcrist.github.io/conda-docker-tips.html
 #    Particularly, we remove pyc and a files. The default install has no js, we can skip that
-RUN wget --no-hsts --quiet https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/Miniforge3-${MINIFORGE_VERSION}-Linux-x86_64.sh -O /tmp/miniforge.sh && \
+RUN wget --no-hsts --quiet https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/${MINIFORGE_VARIANT}-${MINIFORGE_VERSION}-Linux-x86_64.sh -O /tmp/miniforge.sh && \
     /bin/bash /tmp/miniforge.sh -b -p ${CONDA_DIR} && \
     rm /tmp/miniforge.sh && \
     conda clean -tipsy && \
