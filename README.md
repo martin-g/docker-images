@@ -24,7 +24,9 @@ docker build --rm --build-arg CENTOS_VER=6 --build-arg CUDA_VER=10.2 -f linux-an
 ## Environment variables
 
 * `$CUDA_VER`: This is the cuda & cudatoolkit version that will be used. The
-  value of this variable should be in major-minor for, e.g. `9.2`.
+  value of this variable should be in major-minor for, e.g. `9.2` for versions
+  `9.x` and `10.x`. For versions `11.x` the variable should be in
+  major-minor-patch format, e.g. `11.2.0`.
 * `CENTOS_VER`: This is version of CentOS that the image should be built with.
   This is the major-only version number, e.g. `6` or `7`.  You'll usually want
   to build with the lowest working value for maximum compatibility.
