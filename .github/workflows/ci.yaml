@@ -18,10 +18,6 @@ jobs:
           DOCKERTAG: latest
           CENTOS_VER: "6"
 
-        - DOCKERIMAGE: linux-anvil-comp7
-          DOCKERTAG: jnlp-slave
-          CENTOS_VER: "6"
-
         - DOCKERIMAGE: linux-anvil-cos7-x86_64
           DOCKERTAG: latest
           CENTOS_VER: "7"
@@ -147,11 +143,6 @@ jobs:
         run: |
           ./download-qemu-static.sh
 
-      - name: Patch for jnlp-slave
-        if: matrix.cfg.DOCKERTAG == 'jnlp-slave'
-        run: |
-          sed "s|@BASE_IMAGE@|condaforge/$DOCKERIMAGE|" jnlp-slave/Dockerfile.in > $DOCKERIMAGE/Dockerfile
-
       - name: Build image
         run: |
           docker build \
@@ -162,7 +153,6 @@ jobs:
             --no-cache --squash .
 
       - name: Run image
-        if: matrix.cfg.DOCKERTAG != 'jnlp-slave'
         run: |
           ./.circleci/run_docker_build.sh
 
