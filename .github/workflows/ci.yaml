@@ -109,23 +109,12 @@ jobs:
           CUDA_VER: "10.2"
           CENTOS_VER: "7"
 
-        - DOCKERIMAGE: miniforge3
-          DOCKERFILE: miniforge3
-          DOCKERTAG: latest
-          MINIFORGE_VARIANT: Miniforge3
-
-        - DOCKERIMAGE: mambaforge
-          DOCKERFILE: miniforge3
-          DOCKERTAG: latest
-          MINIFORGE_VARIANT: Mambaforge
-
     env:
       DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}
       DOCKERFILE: ${{ matrix.cfg.DOCKERFILE }}
       DOCKERTAG: ${{ matrix.cfg.DOCKERTAG }}
       CUDA_VER: ${{ matrix.cfg.CUDA_VER }}
       CENTOS_VER: ${{ matrix.cfg.CENTOS_VER }}
-      MINIFORGE_VARIANT: ${{ matrix.cfg.MINIFORGE_VARIANT }}
 
     steps:
       - uses: actions/checkout@v2
@@ -147,7 +136,6 @@ jobs:
         run: |
           docker build \
             --build-arg CUDA_VER --build-arg CENTOS_VER \
-            --build-arg MINIFORGE_VARIANT \
             -t condaforge/$DOCKERIMAGE:$DOCKERTAG \
             -f ${DOCKERFILE:-${DOCKERIMAGE}}/Dockerfile \
             --no-cache --squash .
