@@ -28,8 +28,14 @@ ENV CUDA_HOME /usr/local/cuda
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
-    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-${CENTOS_VER}-ppc64le
+# Naming convention changed with cos8 - see https://lists.centos.org/pipermail/centos-devel/2019-September/017847.html
+RUN if [ "$CENTOS_VER" -le "7" ]; then \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-${CENTOS_VER}-ppc64le; \
+    else \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial && \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-centosofficial-ppc64le; \
+    fi
 
 # Remove preinclude system compilers
 RUN rpm -e --nodeps --verbose gcc gcc-c++
