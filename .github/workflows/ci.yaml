@@ -90,6 +90,21 @@ jobs:
           CENTOS_VER: "7"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+          DOCKERTAG: "9.2"
+          CUDA_VER: "9.2"
+          CENTOS_VER: "7"
+
+        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+          DOCKERTAG: "10.0"
+          CUDA_VER: "10.0"
+          CENTOS_VER: "7"
+
+        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+          DOCKERTAG: "10.1"
+          CUDA_VER: "10.1"
+          CENTOS_VER: "7"
+
+        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "10.2"
           CUDA_VER: "10.2"
           CENTOS_VER: "7"

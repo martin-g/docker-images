@@ -77,15 +77,19 @@ RUN source /opt/conda/etc/profile.d/conda.sh && \
     chmod -R g=u /opt/conda
 
 # Download and cache CUDA related packages.
-RUN source /opt/conda/etc/profile.d/conda.sh && \
-    conda activate && \
-    conda create -n test --yes --quiet --download-only \
-        conda-forge::cudatoolkit=${CUDA_VER} \
-        && \
-    conda remove --yes --quiet -n test --all && \
-    conda clean -tiy && \
-    chgrp -R lucky /opt/conda && \
-    chmod -R g=u /opt/conda
+RUN if [[ "$CUDA_VER" == "9.2" || "$CUDA_VER" == "10.0" || "$CUDA_VER" == "10.1" ]]; then \
+        echo "`cudatoolkit` not available for CUDA_VER<10.2"; \
+    else \
+        source /opt/conda/etc/profile.d/conda.sh && \
+        conda activate && \
+        conda create -n test --yes --quiet --download-only \
+            conda-forge::cudatoolkit=${CUDA_VER} \
+            && \
+        conda remove --yes --quiet -n test --all && \
+        conda clean -tiy && \
+        chgrp -R lucky /opt/conda && \
+        chmod -R g=u /opt/conda; \
+    fi
 
 # Add a file for users to source to activate the `conda`
 # environment `root`. Also add a file that wraps that for
