@@ -28,8 +28,15 @@ ENV CUDA_HOME /usr/local/cuda
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
-    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-${CENTOS_VER}-ppc64le
+# Naming convention changed with cos8 - see:
+# * https://lists.centos.org/pipermail/centos-devel/2019-September/017847.html
+# * https://www.centos.org/keys/#project-keys
+RUN if [ "$CENTOS_VER" -le "7" ]; then \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-${CENTOS_VER}-ppc64le; \
+    else \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial; \
+    fi
 
 # Remove preinclude system compilers
 RUN rpm -e --nodeps --verbose gcc gcc-c++
@@ -41,8 +48,17 @@ RUN yum update -y --disablerepo=cuda && \
         bzip2 \
         sudo \
         tar \
-        which && \
+        which \
+        && \
     /opt/docker/bin/yum_clean_all
+
+# Fix locale in CentOS8 images
+# See https://github.com/CentOS/sig-cloud-instance-images/issues/154
+RUN if [ "$CENTOS_VER" -ge "8" ]; then \
+        yum install -y glibc-langpack-en \
+        && \
+        /opt/docker/bin/yum_clean_all; \
+    fi
 
 # Run common commands
 COPY scripts/run_commands /opt/docker/bin/run_commands
@@ -68,6 +84,21 @@ RUN source /opt/conda/etc/profile.d/conda.sh && \
     conda clean -tiy && \
     chgrp -R lucky /opt/conda && \
     chmod -R g=u /opt/conda
+
+# Download and cache CUDA related packages.
+RUN if [[ "$CUDA_VER" == "9.2" || "$CUDA_VER" == "10.0" || "$CUDA_VER" == "10.1" ]]; then \
+        echo "`cudatoolkit` not available for CUDA_VER<10.2"; \
+    else \
+        source /opt/conda/etc/profile.d/conda.sh && \
+        conda activate && \
+        conda create -n test --yes --quiet --download-only \
+            conda-forge::cudatoolkit=${CUDA_VER} \
+            && \
+        conda remove --yes --quiet -n test --all && \
+        conda clean -tiy && \
+        chgrp -R lucky /opt/conda && \
+        chmod -R g=u /opt/conda; \
+    fi
 
 # Add a file for users to source to activate the `conda`
 # environment `root`. Also add a file that wraps that for
