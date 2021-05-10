@@ -27,6 +27,11 @@ ENV CUDA_HOME /usr/local/cuda
 # bust the docker cache so that we always rerun the installs below
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
+# Remove outdated repo URLs
+RUN rm -rf /etc/yum.repos.d/CentOS-*
+# Add the archived centos6 repo URL
+ADD centos7-altarch-vault.repo /etc/yum.repos.d/vault.repo
+
 # Resolves a nasty NOKEY warning that appears when using yum.
 # Naming convention changed with cos8 - see:
 # * https://lists.centos.org/pipermail/centos-devel/2019-September/017847.html

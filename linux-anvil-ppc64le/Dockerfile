@@ -16,6 +16,11 @@ ENV LANGUAGE=en_US.UTF-8
 # bust the docker cache so that we always rerun the installs below
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
+# Remove outdated repo URLs
+RUN rm -rf /etc/yum.repos.d/*
+# Add the archived centos6 repo URL
+ADD centos7-altarch-vault.repo /etc/yum.repos.d/vault.repo
+
 # Resolves a nasty NOKEY warning that appears when using yum.
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
     rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-${CENTOS_VER}-ppc64le
