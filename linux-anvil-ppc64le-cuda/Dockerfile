@@ -28,7 +28,7 @@ ENV CUDA_HOME /usr/local/cuda
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Remove outdated repo URLs
-RUN rm -rf /etc/yum.repos.d/CentOS-*; fi
+RUN rm -rf /etc/yum.repos.d/CentOS-*
 # Add the archived centos6 repo URL
 ADD centos7-altarch-vault.repo /etc/yum.repos.d/vault.repo
 
