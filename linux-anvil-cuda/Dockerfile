@@ -45,7 +45,7 @@ RUN ldconfig -v 2>/dev/null | grep -v ^$'\t' | cut -f1 -d":" >> /etc/ld.so.conf.
     && ldconfig
 
 # bust the docker cache so that we always rerun the installs below
-ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
+ADD https://loripsum.net/api /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER}

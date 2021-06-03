@@ -15,7 +15,7 @@ ADD qemu-arm-static /usr/bin/qemu-arm-static
 ADD qemu-ppc64le-static /usr/bin/qemu-ppc64le-static
 
 # bust the docker cache so that we always rerun the installs below
-ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
+ADD https://loripsum.net/api /opt/docker/etc/gibberish
 
 # Remove outdated repo URLs
 RUN rm -rf /etc/yum.repos.d/*
