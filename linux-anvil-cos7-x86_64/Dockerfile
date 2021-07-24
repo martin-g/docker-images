@@ -13,6 +13,7 @@ ENV LANG en_US.UTF-8
 ADD qemu-aarch64-static /usr/bin/qemu-aarch64-static
 ADD qemu-arm-static /usr/bin/qemu-arm-static
 ADD qemu-ppc64le-static /usr/bin/qemu-ppc64le-static
+ADD qemu-s390x-static /usr/bin/qemu-s390x-static
 
 # bust the docker cache so that we always rerun the installs below
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
