@@ -124,6 +124,21 @@ jobs:
           CUDA_VER: "11.2.2"
           CENTOS_VER: "8"
 
+        - DOCKERIMAGE: linux-anvil-aarch64-cuda
+          DOCKERTAG: "11.0"
+          CUDA_VER: "11.0.3"
+          CENTOS_VER: "8"
+
+        - DOCKERIMAGE: linux-anvil-aarch64-cuda
+          DOCKERTAG: "11.1"
+          CUDA_VER: "11.1.1"
+          CENTOS_VER: "8"
+
+        - DOCKERIMAGE: linux-anvil-aarch64-cuda
+          DOCKERTAG: "11.2"
+          CUDA_VER: "11.2.2"
+          CENTOS_VER: "8"
+
     env:
       DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}
       DOCKERFILE: ${{ matrix.cfg.DOCKERFILE }}
