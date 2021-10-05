@@ -1,7 +1,7 @@
 # Set environment variables during runtime.
 ARG CUDA_VER
 ARG CENTOS_VER
-FROM nvidia/cuda:${CUDA_VER}-devel-centos${CENTOS_VER}
+FROM --platform=linux/amd64 nvidia/cuda:${CUDA_VER}-devel-centos${CENTOS_VER}
 
 LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
 
