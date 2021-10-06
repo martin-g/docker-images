@@ -121,12 +121,12 @@ jobs:
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.0"
-          CUDA_VER: "11.0"
+          CUDA_VER: "11.0.3"
           CENTOS_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.1"
-          CUDA_VER: "11.1"
+          CUDA_VER: "11.1.1"
           CENTOS_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
