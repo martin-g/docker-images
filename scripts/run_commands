@@ -41,7 +41,8 @@ conda clean -tipy
 # Install conda build and deployment tools.
 conda install --yes --quiet \
     git patch \
-    python=3.8 setuptools conda-build anaconda-client
+    python=3.8 setuptools conda-build anaconda-client \
+    mamba boa
 conda clean -tipy
 
 # Install docker tools
