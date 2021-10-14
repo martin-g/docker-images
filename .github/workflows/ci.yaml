@@ -205,7 +205,7 @@ jobs:
           ./.circleci/run_docker_build.sh
 
       - name: Deploy
-        if: github.ref == 'refs/heads/master' && github.repository == 'conda-forge/docker-images'
+        if: github.ref == 'refs/heads/main' && github.repository == 'conda-forge/docker-images'
         env:
           CFD_QUAY_PASSWORD: ${{ secrets.CFD_QUAY_PASSWORD }}
           DH_PASSWORD: ${{ secrets.DH_PASSWORD }}
