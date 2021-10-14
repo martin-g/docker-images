@@ -3,7 +3,7 @@
 
 # Add `master` branch to the update list.
 # Otherwise CircleCI will give us a cached one.
-FETCH_REFS="+master:master"
+FETCH_REFS="+main:main"
 
 # Update PR refs for testing.
 if [[ -n "${CIRCLE_PR_NUMBER}" ]]
