@@ -1,4 +1,4 @@
-[![CI](https://github.com/conda-forge/docker-images/workflows/CI/badge.svg)](https://github.com/conda-forge/docker-images/actions?query=branch%3Amaster+workflow%3Aci)
+[![CI](https://github.com/conda-forge/docker-images/workflows/CI/badge.svg)](https://github.com/conda-forge/docker-images/actions?query=branch%3Amain+workflow%3Aci)
 
 # docker-images
 Repository to host the Docker images files used in conda-forge
