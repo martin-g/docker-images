@@ -41,6 +41,7 @@ conda clean -tipy
 # Install conda build and deployment tools.
 conda install --yes --quiet \
     git patch \
+    python=3.9 \
     boa conda-build anaconda-client
 conda clean -tipy
 
