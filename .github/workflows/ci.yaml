@@ -102,7 +102,7 @@ jobs:
         - DOCKERIMAGE: linux-anvil-cuda
           DOCKERTAG: "11.5"
           CUDA_VER: "11.5.0"
-          CENTOS_VER: "7"
+          CENTOS_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "9.2"
