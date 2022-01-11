@@ -101,7 +101,7 @@ jobs:
 
         - DOCKERIMAGE: linux-anvil-cuda
           DOCKERTAG: "11.5"
-          CUDA_VER: "11.5.0"
+          CUDA_VER: "11.5.1"
           CENTOS_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
@@ -151,7 +151,7 @@ jobs:
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.5"
-          CUDA_VER: "11.5.0"
+          CUDA_VER: "11.5.1"
           CENTOS_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
@@ -181,7 +181,7 @@ jobs:
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.5"
-          CUDA_VER: "11.5.0"
+          CUDA_VER: "11.5.1"
           CENTOS_VER: "8"
 
     env:
