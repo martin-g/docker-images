@@ -42,7 +42,8 @@ conda clean -tipy
 conda install --yes --quiet \
     git patch \
     python=3.9 \
-    boa conda-build anaconda-client
+    mamba boa \
+    conda-build anaconda-client
 conda clean -tipy
 
 # Install docker tools
