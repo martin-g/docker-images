@@ -66,7 +66,7 @@ RUN rpm -e --nodeps --verbose gcc gcc-c++
 RUN if [ "$CENTOS_VER" -eq "8" ]; then \
         find /etc/yum.repos.d/ -name "CentOS-*.repo" -exec \
              sed -i 's/mirrorlist/#mirrorlist/g;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' {} \; && \
-        yum update -y && \
+        yum update -y --disablerepo=cuda && \
         yum clean all; \
     fi
 
