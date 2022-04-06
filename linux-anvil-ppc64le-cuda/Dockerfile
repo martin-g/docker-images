@@ -132,7 +132,7 @@ RUN if [[ "$CUDA_VER" == "9.2" || "$CUDA_VER" == "10.0" || "$CUDA_VER" == "10.1"
 # Add a file for users to source to activate the `conda`
 # environment `root`. Also add a file that wraps that for
 # use with the `ENTRYPOINT`.
-COPY linux-anvil-ppc64le/entrypoint_source /opt/docker/bin/entrypoint_source
+COPY linux-anvil-ppc64le-cuda/entrypoint_source /opt/docker/bin/entrypoint_source
 COPY scripts/entrypoint /opt/docker/bin/entrypoint
 
 # Ensure that all containers start with tini and the user selected process.
