@@ -62,6 +62,14 @@ RUN if [ "$CENTOS_VER" -le "7" ]; then \
 # Remove preinclude system compilers
 RUN rpm -e --nodeps --verbose gcc gcc-c++
 
+# Fallback to CentOS vault for CentOS 8 support.
+RUN if [ "$CENTOS_VER" -eq "8" ]; then \
+        find /etc/yum.repos.d/ -name "CentOS-*.repo" -exec \
+             sed -i 's/mirrorlist/#mirrorlist/g;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' {} \; && \
+        yum update -y && \
+        yum clean all; \
+    fi
+
 # Install basic requirements.
 COPY scripts/yum_clean_all /opt/docker/bin/
 RUN yum update -y --disablerepo=cuda && \
