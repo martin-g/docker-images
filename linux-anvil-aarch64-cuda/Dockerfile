@@ -1,6 +1,6 @@
 ARG CUDA_VER
 ARG CENTOS_VER
-FROM --platform=linux/arm64 nvidia/cuda:${CUDA_VER}-devel-centos${CENTOS_VER}
+FROM --platform=linux/arm64 nvidia/cuda:${CUDA_VER}-devel-ubi${CENTOS_VER}
 
 LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
 
