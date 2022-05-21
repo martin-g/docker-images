@@ -54,7 +54,7 @@ ADD https://loripsum.net/api /opt/docker/etc/gibberish
 # * https://www.centos.org/keys/#project-keys
 RUN if [ "$CENTOS_VER" = "centos7" ]; then \
         rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
-        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-7-ppc64le; \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-7-ppc64le; \
     elif [ "$CENTOS_VER" = "centos8" ]; then \
         rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial; \
     elif [ "$CENTOS_VER" = "ubi8" ]; then \
