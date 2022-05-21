@@ -71,7 +71,7 @@ RUN yum update -y --disablerepo=cuda && \
 
 # Fix locale in CentOS8 images
 # See https://github.com/CentOS/sig-cloud-instance-images/issues/154
-RUN if [ "$CENTOS_VER" = "centos8" ]; then \
+RUN if [ "$CENTOS_VER" = "centos8" ] || [ "$CENTOS_VER" = "ubi8" ]; then \
         yum install -y glibc-langpack-en \
         && \
         /opt/docker/bin/yum_clean_all; \
