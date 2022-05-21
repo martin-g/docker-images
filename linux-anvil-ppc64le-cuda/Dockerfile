@@ -53,8 +53,8 @@ ADD https://loripsum.net/api /opt/docker/etc/gibberish
 # * https://lists.centos.org/pipermail/centos-devel/2019-September/017847.html
 # * https://www.centos.org/keys/#project-keys
 RUN if [ "$CENTOS_VER" = "centos7" ]; then \
-        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
-        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-${CENTOS_VER}-ppc64le; \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-7-ppc64le; \
     else if [ "$CENTOS_VER" = "centos8" ]; then \
         rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial; \
     else if [ "$CENTOS_VER" = "ubi8" ]; then \
@@ -68,7 +68,7 @@ RUN rpm -e --nodeps --verbose gcc gcc-c++
 COPY scripts/yum_clean_all /opt/docker/bin/
 
 # Fallback to CentOS vault for CentOS 8 support.
-RUN if [ "$CENTOS_VER" -eq "8" ]; then \
+RUN if [ "$CENTOS_VER" = "centos8" ]; then \
         find /etc/yum.repos.d/ -name "CentOS-*.repo" -exec \
              sed -i 's/mirrorlist/#mirrorlist/g;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' {} \; && \
         yum update -y --disablerepo=cuda && \
@@ -87,7 +87,7 @@ RUN yum update -y --disablerepo=cuda && \
 
 # Fix locale in CentOS8 images
 # See https://github.com/CentOS/sig-cloud-instance-images/issues/154
-RUN if [ "$CENTOS_VER" -ge "8" ]; then \
+RUN if [ "$CENTOS_VER" = "centos8" ]; then \
         yum install -y glibc-langpack-en \
         && \
         /opt/docker/bin/yum_clean_all; \
