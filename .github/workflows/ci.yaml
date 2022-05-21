@@ -119,102 +119,102 @@ jobs:
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "9.2"
           CUDA_VER: "9.2"
-          CENTOS_VER: "7"
+          CENTOS_VER: "centos7"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "10.0"
           CUDA_VER: "10.0"
-          CENTOS_VER: "7"
+          CENTOS_VER: "centos7"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "10.1"
           CUDA_VER: "10.1"
-          CENTOS_VER: "7"
+          CENTOS_VER: "centos7"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "10.2"
           CUDA_VER: "10.2"
-          CENTOS_VER: "7"
+          CENTOS_VER: "centos7"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.0"
           CUDA_VER: "11.0.3"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.1"
           CUDA_VER: "11.1.1"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.2"
           CUDA_VER: "11.2.2"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.3"
           CUDA_VER: "11.3.1"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.4"
           CUDA_VER: "11.4.2"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.5"
           CUDA_VER: "11.5.1"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.6"
           CUDA_VER: "11.6.0"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.7"
           CUDA_VER: "11.7.0"
-          CENTOS_VER: "8"
+          CENTOS_VER: "ubi8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.0"
           CUDA_VER: "11.0.3"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.1"
           CUDA_VER: "11.1.1"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.2"
           CUDA_VER: "11.2.2"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.3"
           CUDA_VER: "11.3.1"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.4"
           CUDA_VER: "11.4.2"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.5"
           CUDA_VER: "11.5.1"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.6"
           CUDA_VER: "11.6.0"
-          CENTOS_VER: "8"
+          CENTOS_VER: "centos8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.7"
           CUDA_VER: "11.7.0"
-          CENTOS_VER: "8"
+          CENTOS_VER: "ubi8"
 
     env:
       DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}

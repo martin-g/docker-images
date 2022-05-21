@@ -1,6 +1,6 @@
 ARG CUDA_VER
 ARG CENTOS_VER
-FROM --platform=linux/arm64 nvidia/cuda:${CUDA_VER}-devel-ubi${CENTOS_VER}
+FROM --platform=linux/arm64 nvidia/cuda:${CUDA_VER}-devel-${CENTOS_VER}
 
 LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
 
@@ -35,7 +35,15 @@ ADD https://loripsum.net/api /opt/docker/etc/gibberish
 # Naming convention changed with cos8 - see:
 # * https://lists.centos.org/pipermail/centos-devel/2019-September/017847.html
 # * https://www.centos.org/keys/#project-keys
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+RUN if [ "$CENTOS_VER" == "centos7" ]; then \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${CENTOS_VER} && \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-${CENTOS_VER}-aarch64; \
+    else if [[ "$CENTOS_VER" == "centos8" ]]; then \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial; \
+    else if [[ "$CENTOS_VER" == "ubi8" ]]; then \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release; \
+    fi
+
 
 # Remove preinclude system compilers
 RUN rpm -e --nodeps --verbose gcc gcc-c++
