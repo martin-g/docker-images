@@ -19,7 +19,7 @@ fi
 
 yum update -y
 yum install -y \
-  java-1.8.0-openjdk-headless-"$JAVA_CENTOS_VERSION" \
+  java-1.8.0-openjdk-headless-"$JAVA_DISTRO_VERSION" \
 ;
 yum clean all
 
