@@ -53,9 +53,6 @@ ADD https://loripsum.net/api /opt/docker/etc/gibberish
 # Resolves a nasty NOKEY warning that appears when using yum.
 RUN find /etc/pki/rpm-gpg/ -type f | xargs -I {} rpm --import "{}"
 
-# Remove preinclude system compilers
-RUN rpm -e --nodeps --verbose gcc gcc-c++
-
 # Install basic requirements.
 COPY scripts/yum_clean_all /opt/docker/bin/
 RUN yum update -y --disablerepo=cuda && \
@@ -65,6 +62,9 @@ RUN yum update -y --disablerepo=cuda && \
         tar \
         which && \
     /opt/docker/bin/yum_clean_all
+
+# Remove preinclude system compilers
+RUN rpm -e --nodeps --verbose gcc gcc-c++
 
 # Run common commands
 COPY scripts/run_commands /opt/docker/bin/run_commands

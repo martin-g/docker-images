@@ -130,6 +130,12 @@ jobs:
           DISTRO_NAME: "centos"
           DISTRO_VER: "7"
 
+        - DOCKERIMAGE: linux-anvil-cuda
+          DOCKERTAG: "11.7"
+          CUDA_VER: "11.7.0"
+          DISTRO_NAME: "centos"
+          DISTRO_VER: "7"
+
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "9.2"
           CUDA_VER: "9.2"
@@ -196,6 +202,12 @@ jobs:
           DISTRO_NAME: "centos"
           DISTRO_VER: "8"
 
+        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+          DOCKERTAG: "11.7"
+          CUDA_VER: "11.7.0"
+          DISTRO_NAME: "ubi"
+          DISTRO_VER: "8"
+
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.0"
           CUDA_VER: "11.0.3"
@@ -236,6 +248,12 @@ jobs:
           DOCKERTAG: "11.6"
           CUDA_VER: "11.6.0"
           DISTRO_NAME: "centos"
+          DISTRO_VER: "8"
+
+        - DOCKERIMAGE: linux-anvil-aarch64-cuda
+          DOCKERTAG: "11.7"
+          CUDA_VER: "11.7.0"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
     env:

@@ -55,21 +55,20 @@ ADD https://loripsum.net/api /opt/docker/etc/gibberish
 # Naming convention changed with cos8 - see:
 # * https://lists.centos.org/pipermail/centos-devel/2019-September/017847.html
 # * https://www.centos.org/keys/#project-keys
-RUN if [ "$DISTRO_VER" -le "7" ]; then \
-        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-${DISTRO_VER} && \
-        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-${DISTRO_VER}-ppc64le; \
-    else \
+RUN if [ "${DISTRO_NAME}${DISTRO_VER}" = "centos7" ]; then \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-AltArch-7-ppc64le; \
+    elif [ "${DISTRO_NAME}${DISTRO_VER}" = "centos8" ]; then \
         rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial; \
+    elif [ "${DISTRO_NAME}${DISTRO_VER}" = "ubi8" ]; then \
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release; \
     fi
-
-# Remove preinclude system compilers
-RUN rpm -e --nodeps --verbose gcc gcc-c++
 
 # Add custom `yum_clean_all` script before using `yum`
 COPY scripts/yum_clean_all /opt/docker/bin/
 
 # Fallback to CentOS vault for CentOS 8 support.
-RUN if [ "$DISTRO_VER" -eq "8" ]; then \
+RUN if [ "${DISTRO_NAME}${DISTRO_VER}" = "centos8" ]; then \
         find /etc/yum.repos.d/ -name "CentOS-*.repo" -exec \
              sed -i 's/mirrorlist/#mirrorlist/g;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' {} \; && \
         yum update -y --disablerepo=cuda && \
@@ -88,11 +87,14 @@ RUN yum update -y --disablerepo=cuda && \
 
 # Fix locale in CentOS8 images
 # See https://github.com/CentOS/sig-cloud-instance-images/issues/154
-RUN if [ "$DISTRO_VER" -ge "8" ]; then \
+RUN if [ "${DISTRO_NAME}${DISTRO_VER}" = "centos8" ] || [ "${DISTRO_NAME}${DISTRO_VER}" = "ubi8" ]; then \
         yum install -y glibc-langpack-en \
         && \
         /opt/docker/bin/yum_clean_all; \
     fi
+
+# Remove preinclude system compilers
+RUN rpm -e --nodeps --verbose gcc gcc-c++
 
 # Run common commands
 COPY scripts/run_commands /opt/docker/bin/run_commands
