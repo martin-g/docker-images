@@ -58,9 +58,6 @@ RUN if [ "${DISTRO_NAME}${DISTRO_VER}" = "centos8" ]; then \
         /opt/docker/bin/yum_clean_all; \
     fi
 
-# Remove preinclude system compilers
-RUN rpm -e --nodeps --verbose gcc gcc-c++
-
 # Install basic requirements.
 RUN yum update -y --disablerepo=cuda && \
     yum install -y \
@@ -78,6 +75,9 @@ RUN if [ "${DISTRO_NAME}${DISTRO_VER}" = "centos8" ] || [ "${DISTRO_NAME}${DISTR
         && \
         /opt/docker/bin/yum_clean_all; \
     fi
+
+# Remove preinclude system compilers
+RUN rpm -e --nodeps --verbose gcc gcc-c++
 
 # Run common commands
 COPY scripts/run_commands /opt/docker/bin/run_commands
