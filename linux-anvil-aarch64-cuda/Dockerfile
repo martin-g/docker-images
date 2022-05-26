@@ -1,6 +1,7 @@
 ARG CUDA_VER
-ARG CENTOS_VER
-FROM --platform=linux/arm64 nvidia/cuda:${CUDA_VER}-devel-${CENTOS_VER}
+ARG DISTRO_NAME
+ARG DISTRO_VER
+FROM --platform=linux/arm64 nvidia/cuda:${CUDA_VER}-devel-${DISTRO_NAME}${DISTRO_VER}
 
 LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
 
@@ -8,9 +9,11 @@ ADD qemu-aarch64-static /usr/bin/qemu-aarch64-static
 
 # Set CUDA_VER during runtime.
 ARG CUDA_VER
-ARG CENTOS_VER
+ARG DISTRO_NAME
+ARG DISTRO_VER
 ENV CUDA_VER=${CUDA_VER} \
-    CENTOS_VER=${CENTOS_VER}
+    DISTRO_NAME=${DISTRO_NAME} \
+    DISTRO_VER=${DISTRO_VER}
 
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
@@ -35,29 +38,28 @@ ADD https://loripsum.net/api /opt/docker/etc/gibberish
 # Naming convention changed with cos8 - see:
 # * https://lists.centos.org/pipermail/centos-devel/2019-September/017847.html
 # * https://www.centos.org/keys/#project-keys
-RUN if [ "$CENTOS_VER" = "centos7" ]; then \
+RUN if [ "${DISTRO_NAME}${DISTRO_VER}" = "centos7" ]; then \
         rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
         rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-7-aarch64; \
-    elif [ "$CENTOS_VER" = "centos8" ]; then \
+    elif [ "${DISTRO_NAME}${DISTRO_VER}" = "centos8" ]; then \
         rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial; \
-    elif [ "$CENTOS_VER" = "ubi8" ]; then \
+    elif [ "${DISTRO_NAME}${DISTRO_VER}" = "ubi8" ]; then \
         rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release; \
     fi
-
-
-# Remove preinclude system compilers
-RUN rpm -e --nodeps --verbose gcc gcc-c++
 
 # Add custom `yum_clean_all` script before using `yum`
 COPY scripts/yum_clean_all /opt/docker/bin/
 
 # Fallback to CentOS vault for CentOS 8 support.
-RUN if [ "$CENTOS_VER" = "centos8" ]; then \
+RUN if [ "${DISTRO_NAME}${DISTRO_VER}" = "centos8" ]; then \
         find /etc/yum.repos.d/ -name "CentOS-*.repo" -exec \
              sed -i 's/mirrorlist/#mirrorlist/g;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' {} \; && \
         yum update -y --disablerepo=cuda && \
         /opt/docker/bin/yum_clean_all; \
     fi
+
+# Remove preinclude system compilers
+RUN rpm -e --nodeps --verbose gcc gcc-c++
 
 # Install basic requirements.
 RUN yum update -y --disablerepo=cuda && \
@@ -71,7 +73,7 @@ RUN yum update -y --disablerepo=cuda && \
 
 # Fix locale in CentOS8 images
 # See https://github.com/CentOS/sig-cloud-instance-images/issues/154
-RUN if [ "$CENTOS_VER" = "centos8" ] || [ "$CENTOS_VER" = "ubi8" ]; then \
+RUN if [ "${DISTRO_NAME}${DISTRO_VER}" = "centos8" ] || [ "${DISTRO_NAME}${DISTRO_VER}" = "ubi8" ]; then \
         yum install -y glibc-langpack-en \
         && \
         /opt/docker/bin/yum_clean_all; \
