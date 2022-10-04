@@ -1,7 +1,7 @@
 name: Keep
 on:
   schedule:
-    - cron: "0 9 * * 3"  # every wednesday at 9am
+    - cron: "0 6 * * SUN"  # Once weekly on Sunday @ 0600 UTC 
 
 jobs:
   keep-alive:
