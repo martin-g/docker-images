@@ -136,7 +136,7 @@ jobs:
           DISTRO_NAME: "centos"
           DISTRO_VER: "7"
 
-          DOCKERIMAGE: linux-anvil-cuda
+        - DOCKERIMAGE: linux-anvil-cuda
           DOCKERTAG: "11.8"
           CUDA_VER: "11.8.0"
           DISTRO_NAME: "centos"
