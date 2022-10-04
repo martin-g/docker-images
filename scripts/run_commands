@@ -35,30 +35,35 @@ touch /opt/conda/conda-meta/pinned
 ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 source /opt/conda/etc/profile.d/conda.sh
 conda activate
+conda config --set always_yes True
 conda config --set show_channel_urls True
 conda config --set channel_priority strict
 conda config ${additional_channel} --add channels conda-forge
 conda config --show-sources
-conda update --all --yes
-conda clean -tipy
 
-# Install conda build and deployment tools.
-conda install --yes --quiet \
-    git patch \
-    "python=$python_version" pip \
-    mamba boa \
-    conda-build anaconda-client
+# Update everything first
+mamba update --all
+
+# Ensure conda build, deployment and docker tools ar present
+mamba install--quiet \
+    "python=$python_version" \
+    git \
+    patch \
+    pip \
+    conda-build \
+    boa \
+    anaconda-client \
+    su-exec \
+    tini
+
+# Clean to reduce image size
 conda clean -tipy
 
 # Install docker tools
-conda install --yes su-exec
 export CONDA_SUEXEC_INFO=( `conda list su-exec | grep su-exec` )
 echo "su-exec ${CONDA_SUEXEC_INFO[1]}" >> /opt/conda/conda-meta/pinned
-
-conda install --yes tini
 export CONDA_TINI_INFO=( `conda list tini | grep tini` )
 echo "tini ${CONDA_TINI_INFO[1]}" >> /opt/conda/conda-meta/pinned
-conda clean -tipy
 
 # Lucky group gets permission to write in the conda dir
 groupadd -g 32766 lucky
