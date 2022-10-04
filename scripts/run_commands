@@ -27,6 +27,9 @@ sha256sum miniconda.sh | grep $conda_chksum
 
 bash miniconda.sh -b -p /opt/conda
 rm -f miniconda.sh
+
+# Work around TLS issues while updating conda's python and retrieving channel notices
+export CONDA_NUMBER_CHANNEL_NOTICES="0"
 touch /opt/conda/conda-meta/pinned
 ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 source /opt/conda/etc/profile.d/conda.sh
