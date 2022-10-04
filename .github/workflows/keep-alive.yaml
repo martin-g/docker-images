@@ -1,6 +1,5 @@
 name: Keep
 on:
-  pull_request:
   schedule:
     - cron: "0 9 * * 3"  # every wednesday at 9am
 
