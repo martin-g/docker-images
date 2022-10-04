@@ -44,7 +44,7 @@ conda clean -tipy
 # Install conda build and deployment tools.
 conda install --yes --quiet \
     git patch \
-    python=3.9 pip \
+    python=3.10 pip \
     mamba boa \
     conda-build anaconda-client
 conda clean -tipy
