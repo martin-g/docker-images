@@ -1,6 +1,6 @@
 name: Keep
 on:
-  pull_request:
+  # pull_request:
   schedule:
     - cron: "0 6 * * SUN"  # Once weekly on Sunday @ 0600 UTC 
 
