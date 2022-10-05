@@ -35,7 +35,6 @@ touch /opt/conda/conda-meta/pinned
 ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 source /opt/conda/etc/profile.d/conda.sh
 conda activate
-conda config --set always_yes True
 conda config --set show_channel_urls True
 conda config --set channel_priority strict
 conda config ${additional_channel} --add channels conda-forge
