@@ -5,11 +5,11 @@ if [ "$(uname -m)" == "x86_64" ]; then
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
 fi
 
-export QEMU_STATIC_VERSION=v6.1.0-6
-qemu_aarch64_sha256=a46e431ce84a904fbce2f7c4e7017344ce507cdecc20e784edf9ab6806d08130
-qemu_arm_sha256=e9579ab10fe5ed2a5e967bac71b7f20503e5849ab48b9e911b052a97d5dc273f
-qemu_ppc64le_sha256=d914794967e3e514cff722df1602f89aa7c38ad59dcbadbc34904fe926e912e0
-qemu_s390x_sha256=20d03b3bceaf07efafa0b626ea75dd7443ecbf645989f1d02ba398392c2b7003
+export QEMU_STATIC_VERSION=v7.1.0-2
+qemu_aarch64_sha256=5cf5d2cd8bc7a3ac9362c026b89f4bbce276ef59ddf73d3dfa02400acf607bc7
+qemu_arm_sha256=1aca27a553410dd0cce1ec8e7df9acdc7a8c0df5cb93418662a1aec0cac76b60
+qemu_ppc64le_sha256=f362bad43f8164a6ae12ea4fb8d058be3200ad6b28db1de65175b60c5b4227ca
+qemu_s390x_sha256=9f95fd46e8017af02784e0d7a3f7a4ce10243c54bbbab2c2ed8a85b08311cb9a
 
 set +e
 rm qemu-*-static
