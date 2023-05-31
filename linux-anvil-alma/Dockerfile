@@ -32,7 +32,7 @@ COPY scripts/yum_clean_all /opt/docker/bin/
 RUN yum update -y && \
     yum install -y \
         bzip2 \
-        glibc-langpack-en \
+        glibc-minimal-langpack \
         sudo \
         tar \
         which && \
