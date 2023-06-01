@@ -33,6 +33,7 @@ RUN yum update -y && \
     yum install -y \
         bzip2 \
         glibc-minimal-langpack \
+        glibc-langpack-en \
         sudo \
         tar \
         which && \
