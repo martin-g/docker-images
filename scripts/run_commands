@@ -2,7 +2,7 @@
 
 set -exo pipefail
 
-export additional_channel="--add channels defaults"
+export additional_channel=""
 
 export miniforge_arch="$(uname -m)"
 export miniforge_version="22.9.0-0"
