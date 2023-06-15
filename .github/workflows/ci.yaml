@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.cfg.DOCKERIMAGE }}:${{ matrix.cfg.DOCKERTAG }}
+    name: ${{ matrix.cfg.DOCKERIMAGE }}:${{ matrix.cfg.DOCKERTAG }} (${{ matrix.cfg.DISTRO_ARCH }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -275,11 +275,30 @@ jobs:
           DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
+        - DOCKERIMAGE: linux-anvil-alma
+          DOCKERTAG: "8"
+          DISTRO_ARCH: "amd64"
+          DISTRO_NAME: "almalinux"
+          DISTRO_VER: "8"
+
+        - DOCKERIMAGE: linux-anvil-alma
+          DOCKERTAG: "8"
+          DISTRO_ARCH: "arm64"
+          DISTRO_NAME: "almalinux"
+          DISTRO_VER: "8"
+
+        - DOCKERIMAGE: linux-anvil-alma
+          DOCKERTAG: "8"
+          DISTRO_ARCH: "ppc64le"
+          DISTRO_NAME: "almalinux"
+          DISTRO_VER: "8"
+
     env:
       DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}
       DOCKERFILE: ${{ matrix.cfg.DOCKERFILE }}
       DOCKERTAG: ${{ matrix.cfg.DOCKERTAG }}
       CUDA_VER: ${{ matrix.cfg.CUDA_VER }}
+      DISTRO_ARCH: ${{ matrix.cfg.DISTRO_ARCH }}
       DISTRO_NAME: ${{ matrix.cfg.DISTRO_NAME }}
       DISTRO_VER: ${{ matrix.cfg.DISTRO_VER }}
 
@@ -303,7 +322,9 @@ jobs:
         run: |
           docker build \
             --build-arg CUDA_VER \
-            --build-arg DISTRO_NAME --build-arg DISTRO_VER \
+            --build-arg DISTRO_ARCH \
+            --build-arg DISTRO_NAME \
+            --build-arg DISTRO_VER \
             -t condaforge/$DOCKERIMAGE:$DOCKERTAG \
             -f ${DOCKERFILE:-${DOCKERIMAGE}}/Dockerfile \
             --no-cache --squash .
