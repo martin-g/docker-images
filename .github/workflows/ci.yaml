@@ -43,49 +43,10 @@ jobs:
           DISTRO_NAME: "centos"
           DISTRO_VER: "6"
 
-        - DOCKERIMAGE: linux-anvil-cuda
-          DOCKERTAG: "10.0"
-          CUDA_VER: "10.0"
-          DISTRO_NAME: "centos"
-          DISTRO_VER: "6"
-
-        - DOCKERIMAGE: linux-anvil-cuda
-          DOCKERTAG: "10.1"
-          CUDA_VER: "10.1"
-          DISTRO_NAME: "centos"
-          DISTRO_VER: "6"
-
-        - DOCKERIMAGE: linux-anvil-cuda
-          DOCKERTAG: "10.2"
-          CUDA_VER: "10.2"
-          DISTRO_NAME: "centos"
-          DISTRO_VER: "6"
-
         - DOCKERIMAGE: linux-anvil-cos7-cuda
           DOCKERFILE: linux-anvil-cuda
           DOCKERTAG: "9.2"
           CUDA_VER: "9.2"
-          DISTRO_NAME: "centos"
-          DISTRO_VER: "7"
-
-        - DOCKERIMAGE: linux-anvil-cos7-cuda
-          DOCKERFILE: linux-anvil-cuda
-          DOCKERTAG: "10.0"
-          CUDA_VER: "10.0"
-          DISTRO_NAME: "centos"
-          DISTRO_VER: "7"
-
-        - DOCKERIMAGE: linux-anvil-cos7-cuda
-          DOCKERFILE: linux-anvil-cuda
-          DOCKERTAG: "10.1"
-          CUDA_VER: "10.1"
-          DISTRO_NAME: "centos"
-          DISTRO_VER: "7"
-
-        - DOCKERIMAGE: linux-anvil-cos7-cuda
-          DOCKERFILE: linux-anvil-cuda
-          DOCKERTAG: "10.2"
-          CUDA_VER: "10.2"
           DISTRO_NAME: "centos"
           DISTRO_VER: "7"
 
@@ -146,24 +107,6 @@ jobs:
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "9.2"
           CUDA_VER: "9.2"
-          DISTRO_NAME: "centos"
-          DISTRO_VER: "7"
-
-        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
-          DOCKERTAG: "10.0"
-          CUDA_VER: "10.0"
-          DISTRO_NAME: "centos"
-          DISTRO_VER: "7"
-
-        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
-          DOCKERTAG: "10.1"
-          CUDA_VER: "10.1"
-          DISTRO_NAME: "centos"
-          DISTRO_VER: "7"
-
-        - DOCKERIMAGE: linux-anvil-ppc64le-cuda
-          DOCKERTAG: "10.2"
-          CUDA_VER: "10.2"
           DISTRO_NAME: "centos"
           DISTRO_VER: "7"
 
