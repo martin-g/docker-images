@@ -54,7 +54,6 @@ mamba install --yes --quiet \
     patch \
     pip \
     conda-build \
-    boa \
     anaconda-client \
     su-exec \
     tini
