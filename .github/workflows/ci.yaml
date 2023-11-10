@@ -94,31 +94,31 @@ jobs:
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.0"
           CUDA_VER: "11.0.3"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.1"
           CUDA_VER: "11.1.1"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.2"
           CUDA_VER: "11.2.2"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.3"
           CUDA_VER: "11.3.1"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
           DOCKERTAG: "11.4"
           CUDA_VER: "11.4.3"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-ppc64le-cuda
@@ -148,31 +148,31 @@ jobs:
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.0"
           CUDA_VER: "11.0.3"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.1"
           CUDA_VER: "11.1.1"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.2"
           CUDA_VER: "11.2.2"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.3"
           CUDA_VER: "11.3.1"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
           DOCKERTAG: "11.4"
           CUDA_VER: "11.4.3"
-          DISTRO_NAME: "centos"
+          DISTRO_NAME: "ubi"
           DISTRO_VER: "8"
 
         - DOCKERIMAGE: linux-anvil-aarch64-cuda
