@@ -17,7 +17,6 @@ mv ./deb-tmp/usr/bin/qemu-*-static ./
 rm -rf ./deb-tmp
 sha256sum --check << 'EOF'
 f5c0f9f9e1499c6907bb293a250d9a015ea99e304654e0ab9fb38fd72efad7ce  qemu-aarch64-static
-d7d7dcbaf1a2a58fc3a42465ae5a253b1cef1bcb08c6e8bb8dd22be8cfdaadeb  qemu-arm-static
 79a95114ab8b6f7d6d570bd6eeb81d8ed57f4d5210503a826a13fa26502a3bee  qemu-ppc64le-static
 e9c1ee2d9bf7e9aea9f59fd39837084f2c223676e656a5261f893b2de1b4e7bb  qemu-s390x-static
 EOF
