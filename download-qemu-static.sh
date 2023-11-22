@@ -8,14 +8,12 @@ fi
 
 rm -f qemu-*-static
 
-set -- aarch64 arm ppc64le s390x
-
 version='8.1.2'
 build='ds-1'
 curl -sL \
     "http://ftp.debian.org/debian/pool/main/q/qemu/qemu-user-static_${version}+${build}_amd64.deb" |
     dpkg-deb --extract - ./deb-tmp
-for arch; do
+for arch in aarch64 arm ppc64le s390x; do
     mv "./deb-tmp/usr/bin/qemu-${arch}-static" ./
 done
 rm -rf ./deb-tmp
@@ -30,7 +28,7 @@ EOF
 ## (This needs bsdtar installed.)
 # version='8.1.2'
 # build='1.fc40'
-# for arch; do
+# for arch in aarch64 arm ppc64le s390x; do
 #     curl -sL \
 #         "https://kojipkgs.fedoraproject.org//packages/qemu/${version}/${build}/x86_64/qemu-user-static-${arch/ppc64le/ppc}-${version}-${build}.x86_64.rpm" |
 #         bsdtar -xf- --strip-components=3 ./usr/bin/qemu-${arch}-static
