@@ -2,7 +2,7 @@
 
 set -eux
 
-if [ "$(uname -m)" == "x86_64" ]; then
+if [ "$(uname -m)" = "x86_64" ]; then
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
 fi
 
