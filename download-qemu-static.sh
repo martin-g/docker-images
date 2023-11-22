@@ -13,9 +13,7 @@ build='ds-1'
 curl -sL \
     "http://ftp.debian.org/debian/pool/main/q/qemu/qemu-user-static_${version}+${build}_amd64.deb" |
     dpkg-deb --extract - ./deb-tmp
-for arch in aarch64 arm ppc64le s390x; do
-    mv "./deb-tmp/usr/bin/qemu-${arch}-static" ./
-done
+mv ./deb-tmp/usr/bin/qemu-*-static ./
 rm -rf ./deb-tmp
 sha256sum --check << 'EOF'
 f5c0f9f9e1499c6907bb293a250d9a015ea99e304654e0ab9fb38fd72efad7ce  qemu-aarch64-static
