@@ -1,33 +1,22 @@
 #!/bin/bash -ex
 
-set -xe
-if [ "$(uname -m)" == "x86_64" ]; then
+set -eux
+
+if [ "$(uname -m)" = "x86_64" ]; then
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
 fi
 
-export QEMU_STATIC_VERSION=v7.2.0-1
-qemu_aarch64_sha256=dce64b2dc6b005485c7aa735a7ea39cb0006bf7e5badc28b324b2cd0c73d883f
-qemu_arm_sha256=9f07762a3cd0f8a199cb5471a92402a4765f8e2fcb7fe91a87ee75da9616a806
-qemu_ppc64le_sha256=a8855b9a9cdefbe2163d9f7851fb71c77207d816451237caed616eb9b03229ac
-qemu_s390x_sha256=a438ab2f7c2e0f0ffe63992bccedaf60d789cfb1849e035c0764bda7d9e73a9a
+rm -f qemu-*-static
 
-set +e
-rm qemu-*-static
-set -e
-
-wget https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_STATIC_VERSION}/qemu-aarch64-static
-wget https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_STATIC_VERSION}/qemu-arm-static
-wget https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_STATIC_VERSION}/qemu-ppc64le-static
-wget https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_STATIC_VERSION}/qemu-s390x-static
-
-sha256sum qemu-*-static
-
-sha256sum qemu-aarch64-static | grep -F "${qemu_aarch64_sha256}"
-sha256sum qemu-arm-static | grep -F "${qemu_arm_sha256}"
-sha256sum qemu-ppc64le-static | grep -F "${qemu_ppc64le_sha256}"
-sha256sum qemu-s390x-static | grep -F "${qemu_s390x_sha256}"
-
-chmod +x qemu-aarch64-static
-chmod +x qemu-arm-static
-chmod +x qemu-ppc64le-static
-chmod +x qemu-s390x-static
+version='8.0.4'
+build='dfsg-1ubuntu5'
+curl -sL \
+    "https://mirrors.edge.kernel.org/ubuntu/pool/universe/q/qemu/qemu-user-static_${version}%2B${build}_amd64.deb" |
+    dpkg-deb --extract - ./deb-tmp
+mv ./deb-tmp/usr/bin/qemu-*-static ./
+rm -rf ./deb-tmp
+sha256sum --check << 'EOF'
+0312d58f7f2e5825c84d9c39e686da8a2714728c5ed5b872716f06e189e6bbaa  qemu-aarch64-static
+6a9cc7d3d1a931811b1b91bbff83fb0bbfb0fb06cf8b7b980afad2ee55e3d06a  qemu-ppc64le-static
+8cf7e22ce2038cb36d9d0a9c49118e76a7fe6ab5d9c27d595b6815acc4b3bfac  qemu-s390x-static
+EOF
