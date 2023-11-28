@@ -1,7 +1,7 @@
 ARG DISTRO_ARCH
 ARG DISTRO_NAME
 ARG DISTRO_VER
-FROM --platform=linux/${DISTRO_ARCH} ${DISTRO_NAME}:${DISTRO_VER}
+FROM ${DISTRO_NAME}:${DISTRO_VER}
 
 LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
 

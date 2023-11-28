@@ -14,30 +14,15 @@ jobs:
     # name: ${{ matrix.cfg.DOCKERIMAGE }}:${{ matrix.cfg.DOCKERTAG }} (${{ matrix.cfg.DISTRO_ARCH }})
     name: Multi-arch build
     runs-on: ubuntu-latest
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     cfg:
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
     #     - DOCKERIMAGE: linux-anvil-comp7
     #       DOCKERTAG: latest
     #       DISTRO_NAME: "centos"
     #       DISTRO_VER: "6"
 
-    #     - DOCKERIMAGE: linux-anvil-cos7-x86_64
-    #       DOCKERTAG: latest
-    #       DISTRO_NAME: "centos"
-    #       DISTRO_VER: "7"
-
-    #     - DOCKERIMAGE: linux-anvil-ppc64le
-    #       DOCKERTAG: latest
-    #       DISTRO_NAME: "centos"
-    #       DISTRO_VER: "7"
-
-    #     - DOCKERIMAGE: linux-anvil-aarch64
-    #       DOCKERTAG: latest
-    #       DISTRO_NAME: "centos"
-    #       DISTRO_VER: "7"
-
     #     - DOCKERIMAGE: linux-anvil-cuda
     #       DOCKERTAG: "11.0"
     #       CUDA_VER: "11.0.3"
@@ -200,26 +185,19 @@ jobs:
     #       DISTRO_NAME: "ubi"
     #       DISTRO_VER: "8"
 
-    #     - DOCKERIMAGE: linux-anvil-alma-x86_64
-    #       DOCKERFILE: linux-anvil-alma
-    #       DOCKERTAG: "8"
-    #       DISTRO_ARCH: "amd64"
-    #       DISTRO_NAME: "almalinux"
-    #       DISTRO_VER: "8"
+        - DOCKERIMAGE: linux-anvil-cos7-matrix
+          DOCKERFILE: linux-anvil-cos7-x86_64
+          PLATFORMS: linux/amd64,linux/arm64,linux/ppc64le
+          DOCKERTAG: latest
+          DISTRO_NAME: "centos"
+          DISTRO_VER: "7"
 
-    #     - DOCKERIMAGE: linux-anvil-alma-aarch64
-    #       DOCKERFILE: linux-anvil-alma
-    #       DOCKERTAG: "8"
-    #       DISTRO_ARCH: "arm64"
-    #       DISTRO_NAME: "almalinux"
-    #       DISTRO_VER: "8"
-
-    #     - DOCKERIMAGE: linux-anvil-alma-ppc64le
-    #       DOCKERFILE: linux-anvil-alma
-    #       DOCKERTAG: "8"
-    #       DISTRO_ARCH: "ppc64le"
-    #       DISTRO_NAME: "almalinux"
-    #       DISTRO_VER: "8"
+        - DOCKERIMAGE: linux-anvil-alma
+          DOCKERFILE: linux-anvil-alma
+          PLATFORMS: linux/amd64,linux/arm64,linux/ppc64le
+          DOCKERTAG: "8"
+          DISTRO_NAME: "almalinux"
+          DISTRO_VER: "8"
 
     env:
       DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}
@@ -261,11 +239,13 @@ jobs:
 
       - name: Build image
         run: |
-          docker buildx build --platform=linux/amd64,linux/arm64,linux/ppc64le \
-            --build-arg DISTRO_NAME=centos \
-            --build-arg DISTRO_VER=7 \
-            -t ghcr.io/${{ github.repository_owner }}/condaforge/linux-anvil-cos7:latest \
-            --file linux-anvil-cos7-x86_64/Dockerfile \
+          docker buildx build \
+            --platform=${{ matrix.cfg.PLATFORMS }} \
+            --build-arg DISTRO_NAME=${{ matrix.cfg.DISTRO_NAME }} \
+            --build-arg DISTRO_VER=${{ matrix.cfg.DISTRO_VER }} \
+            -t ghcr.io/${{ github.repository_owner }}/condaforge/${{ matrix.cfg.DOCKERIMAGE }}:latest \
+            --file ${{ matrix.cfg.DOCKERFILE }}/Dockerfile \
+            --squash \
             --push .
 
       - name: Run image
