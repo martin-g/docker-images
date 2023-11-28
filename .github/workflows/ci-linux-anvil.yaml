@@ -1,0 +1,262 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron: "0 6 * * SUN"  # Once weekly on Sunday @ 0600 UTC
+  workflow_dispatch: null
+
+jobs:
+  build:
+    # name: ${{ matrix.cfg.DOCKERIMAGE }}:${{ matrix.cfg.DOCKERTAG }} (${{ matrix.cfg.DISTRO_ARCH }})
+    name: Multi-arch build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
+    #     - DOCKERIMAGE: linux-anvil-comp7
+    #       DOCKERTAG: latest
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "6"
+
+    #     - DOCKERIMAGE: linux-anvil-cuda
+    #       DOCKERTAG: "11.0"
+    #       CUDA_VER: "11.0.3"
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "7"
+
+    #     - DOCKERIMAGE: linux-anvil-cuda
+    #       DOCKERTAG: "11.1"
+    #       CUDA_VER: "11.1.1"
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "7"
+
+    #     - DOCKERIMAGE: linux-anvil-cuda
+    #       DOCKERTAG: "11.2"
+    #       CUDA_VER: "11.2.2"
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "7"
+
+    #     - DOCKERIMAGE: linux-anvil-cuda
+    #       DOCKERTAG: "11.3"
+    #       CUDA_VER: "11.3.1"
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "7"
+
+    #     - DOCKERIMAGE: linux-anvil-cuda
+    #       DOCKERTAG: "11.4"
+    #       CUDA_VER: "11.4.3"
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "7"
+
+    #     - DOCKERIMAGE: linux-anvil-cuda
+    #       DOCKERTAG: "11.5"
+    #       CUDA_VER: "11.5.2"
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "7"
+
+    #     - DOCKERIMAGE: linux-anvil-cuda
+    #       DOCKERTAG: "11.6"
+    #       CUDA_VER: "11.6.2"
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "7"
+
+    #     - DOCKERIMAGE: linux-anvil-cuda
+    #       DOCKERTAG: "11.7"
+    #       CUDA_VER: "11.7.1"
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "7"
+
+    #     - DOCKERIMAGE: linux-anvil-cuda
+    #       DOCKERTAG: "11.8"
+    #       CUDA_VER: "11.8.0"
+    #       DISTRO_NAME: "centos"
+    #       DISTRO_VER: "7"
+
+    #     - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+    #       DOCKERTAG: "11.0"
+    #       CUDA_VER: "11.0.3"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+    #       DOCKERTAG: "11.1"
+    #       CUDA_VER: "11.1.1"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+    #       DOCKERTAG: "11.2"
+    #       CUDA_VER: "11.2.2"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+    #       DOCKERTAG: "11.3"
+    #       CUDA_VER: "11.3.1"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+    #       DOCKERTAG: "11.4"
+    #       CUDA_VER: "11.4.3"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+    #       DOCKERTAG: "11.5"
+    #       CUDA_VER: "11.5.2"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+    #       DOCKERTAG: "11.6"
+    #       CUDA_VER: "11.6.2"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+    #       DOCKERTAG: "11.7"
+    #       CUDA_VER: "11.7.1"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-ppc64le-cuda
+    #       DOCKERTAG: "11.8"
+    #       CUDA_VER: "11.8.0"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-aarch64-cuda
+    #       DOCKERTAG: "11.0"
+    #       CUDA_VER: "11.0.3"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-aarch64-cuda
+    #       DOCKERTAG: "11.1"
+    #       CUDA_VER: "11.1.1"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-aarch64-cuda
+    #       DOCKERTAG: "11.2"
+    #       CUDA_VER: "11.2.2"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-aarch64-cuda
+    #       DOCKERTAG: "11.3"
+    #       CUDA_VER: "11.3.1"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-aarch64-cuda
+    #       DOCKERTAG: "11.4"
+    #       CUDA_VER: "11.4.3"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-aarch64-cuda
+    #       DOCKERTAG: "11.5"
+    #       CUDA_VER: "11.5.2"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-aarch64-cuda
+    #       DOCKERTAG: "11.6"
+    #       CUDA_VER: "11.6.2"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-aarch64-cuda
+    #       DOCKERTAG: "11.7"
+    #       CUDA_VER: "11.7.1"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+    #     - DOCKERIMAGE: linux-anvil-aarch64-cuda
+    #       DOCKERTAG: "11.8"
+    #       CUDA_VER: "11.8.0"
+    #       DISTRO_NAME: "ubi"
+    #       DISTRO_VER: "8"
+
+        - DOCKERIMAGE: linux-anvil-cos7-matrix
+          DOCKERFILE: linux-anvil-cos7-x86_64
+          PLATFORMS: linux/amd64,linux/arm64,linux/ppc64le
+          DOCKERTAG: latest
+          DISTRO_NAME: "centos"
+          DISTRO_VER: "7"
+
+        - DOCKERIMAGE: linux-anvil-alma
+          DOCKERFILE: linux-anvil-alma
+          PLATFORMS: linux/amd64,linux/arm64,linux/ppc64le
+          DOCKERTAG: "8"
+          DISTRO_NAME: "almalinux"
+          DISTRO_VER: "8"
+
+    env:
+      DOCKERIMAGE: ${{ matrix.cfg.DOCKERIMAGE }}
+      DOCKERFILE: ${{ matrix.cfg.DOCKERFILE }}
+      DOCKERTAG: ${{ matrix.cfg.DOCKERTAG }}
+      CUDA_VER: ${{ matrix.cfg.CUDA_VER }}
+      DISTRO_ARCH: ${{ matrix.cfg.DISTRO_ARCH }}
+      DISTRO_NAME: ${{ matrix.cfg.DISTRO_NAME }}
+      DISTRO_VER: ${{ matrix.cfg.DISTRO_VER }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable experimental features (needed for squash)
+        run: |
+          sudo cp docker_daemon_config.json /etc/docker/daemon.json
+          sudo service docker restart
+
+      - name: Docker info
+        run: |
+          docker info
+
+      - name: Configure qemu
+        run: |
+          ./download-qemu-static.sh
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Docker Buildx Create
+        run: docker buildx create --use
+
+      - name: Login to Github Docker Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: |
+          docker buildx build \
+            --platform=${{ matrix.cfg.PLATFORMS }} \
+            --build-arg DISTRO_NAME=${{ matrix.cfg.DISTRO_NAME }} \
+            --build-arg DISTRO_VER=${{ matrix.cfg.DISTRO_VER }} \
+            -t ghcr.io/${{ github.repository_owner }}/condaforge/${{ matrix.cfg.DOCKERIMAGE }}:latest \
+            --file ${{ matrix.cfg.DOCKERFILE }}/Dockerfile \
+            --squash \
+            --push .
+
+      - name: Run image
+        if: false
+        run: |
+          ./.circleci/run_docker_build.sh
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/main' && github.repository == 'conda-forge/docker-images'
+        env:
+          CFD_QUAY_PASSWORD: ${{ secrets.CFD_QUAY_PASSWORD }}
+          DH_PASSWORD: ${{ secrets.DH_PASSWORD }}
+        run: |
+          ./scripts/deploy
