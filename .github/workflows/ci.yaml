@@ -260,10 +260,52 @@ jobs:
         run: |
           ./.circleci/run_docker_build.sh
 
-      - name: Deploy
-        if: github.ref == 'refs/heads/main' && github.repository == 'conda-forge/docker-images'
+      - name: Deploy images
+        # if: github.ref == 'refs/heads/main' && github.repository == 'conda-forge/docker-images'
         env:
+          CFD_QUAY_USER: ${{ secrets.CFD_QUAY_USER }}
           CFD_QUAY_PASSWORD: ${{ secrets.CFD_QUAY_PASSWORD }}
-          DH_PASSWORD: ${{ secrets.DH_PASSWORD }}
+          # DH_PASSWORD: ${{ secrets.DH_PASSWORD }}
+          DH_USER: ${{ secrets.DOCKER_HUB_USER }}
+          DH_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWD }}
         run: |
-          ./scripts/deploy
+          ./scripts/deploy-mgrigorov
+  
+  build-manifest:
+    needs: [build]
+    name: ${{ matrix.cfg.DOCKER_MANIFEST }}:${{ matrix.cfg.DOCKER_TAG }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
+          - DOCKER_MANIFEST: condaforge/linux-anvil-cos7
+            DOCKER_TAG: "latest"
+            DOCKER_IMAGES: condaforge/linux-anvil-cos7-x86_64:latest,condaforge/linux-anvil-ppc64le:latest,condaforge/linux-anvil-aarch64:latest
+
+          - DOCKER_MANIFEST: condaforge/linux-anvil-alma
+            DOCKER_TAG: "8"
+            DOCKER_IMAGES: condaforge/linux-anvil-alma-x86_64:8,condaforge/linux-anvil-alma-ppc64le:8,condaforge/linux-anvil-alma-aarch64:8
+
+    steps:
+  
+      - name: Create Docker manifests
+        uses: Noelware/docker-manifest-action@v0.3.0
+        with:
+            inputs: ${{ matrix.cfg.DOCKER_MANIFEST }}:${{ matrix.cfg.DOCKER_TAG }}
+            images: ${{ matrix.cfg.DOCKER_IMAGES }}
+            push: false
+  
+      - name: Deploy manifests
+        # if: github.ref == 'refs/heads/main' && github.repository == 'conda-forge/docker-images'
+        env:
+          CFD_QUAY_USER: ${{ secrets.CFD_QUAY_USER }}
+          CFD_QUAY_PASSWORD: ${{ secrets.CFD_QUAY_PASSWORD }}
+          # DH_PASSWORD: ${{ secrets.DH_PASSWORD }}
+          DH_USER: ${{ secrets.DOCKER_HUB_USER }}
+          DH_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWD }}
+          DOCKERIMAGE: ${{ matrix.cfg.DOCKER_MANIFEST }}
+          DOCKERTAG: ${{ matrix.cfg.DOCKER_TAG }}
+        run: |
+          ./scripts/deploy-mgrigorov
+  

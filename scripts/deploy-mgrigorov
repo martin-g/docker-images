@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -xe
+
+docker images
+
+# dockerhub
+echo ${DH_PASSWORD} | docker login -u ${DH_USER} --password-stdin
+docker tag condaforge/${DOCKERIMAGE}:${DOCKERTAG} mtgrigorov/${DOCKERIMAGE}:${DOCKERTAG}
+docker images
+docker push mtgrigorov/${DOCKERIMAGE}:${DOCKERTAG}
+
+# quay.io
+echo ${CFD_QUAY_PASSWORD} | docker login -u ${CFD_QUAY_USER} --password-stdin quay.io
+docker tag condaforge/${DOCKERIMAGE}:${DOCKERTAG} quay.io/mgrigorov/${DOCKERIMAGE}:${DOCKERTAG}
+docker images
+docker push quay.io/mgrigorov/${DOCKERIMAGE}:${DOCKERTAG}
