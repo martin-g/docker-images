@@ -12,8 +12,8 @@ on:
 env:
   # REGISTRY_DH: docker.io/condaforge
   # REGISTRY_QUAY: quay.io/condaforge
-  REGISTRY_DH: docker.io/mtgrigorov
-  REGISTRY_QUAY: quay.io/mgrigorov
+  REGISTRY_DH: ${{ vars.REGISTRY_DH }}
+  REGISTRY_QUAY: ${{ vars.REGISTRY_QUAY }}
 
 jobs:
   build:
@@ -289,7 +289,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        docker-registry: [docker.io/mtgrigorov, quay.io/mgrigorov]
+        docker-registry: [${{ vars.REGISTRY_DH }}, ${{ vars.REGISTRY_QUAY }}]
         cfg:
           - DOCKER_MANIFEST: linux-anvil-cos7
             DOCKER_TAG: "latest"
